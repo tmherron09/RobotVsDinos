@@ -28,7 +28,7 @@ namespace RobotsVsDinosaurs
         }
         private Robot InitializeNewRobot()
         {
-            throw new NotImplementedException();
+            Robot newRobot = new Robot(availableWeapons);
         }
     }
 }
