@@ -8,29 +8,28 @@ namespace RobotsVsDinosaurs
 {
     class Herd
     {
-        List<Dinosaurs> dinosaurs;
+        List<Dinosaur> dinosaurs;
         List<string> dinosaurTypes;
         //List<DinosaurAttack> dinosaurAttacks;
 
         public Herd()
         {
-            dinosaurs = new List<Dinosaurs>();
+            dinosaurs = new List<Dinosaur>();
             dinosaurTypes = new List<string> { "Troodon", "Quaesitosaurus", "T-Rex" };
         }
 
-        private List<Dinosaurs> InitializeHerd()
+        public void InitializeHerd()
         {
-            throw new NotImplementedException();
-            //List<Dinosaur> dinosaurs;
-            //Dinosaur dinosaur = InitializeNewDinosaur();
-            //dinosaurs.Add(dinosaur) 
-            // times 3
-            //return dinosaurs;
+            InitializeNewDinosaurList();
         }
-        private Dinosaur InitializeNewDinosaur()
+        private void InitializeNewDinosaurList()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < 3; i++)
+            {
+                dinosaurs.Add(new Dinosaur(dinosaurTypes[i]));
+            }
         }
+
 
     }
 }
