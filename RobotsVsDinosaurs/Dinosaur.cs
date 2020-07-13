@@ -8,10 +8,10 @@ namespace RobotsVsDinosaurs
 {
     class Dinosaur
     {
-        string typename;
-        int health;
-        int powerLevel;
-        int attackPower;
+        public string typename;
+        public int health;
+        public int powerLevel;
+        public int attackPower;
         //string attackName; Add Later
 
         public Dinosaur(string typeName)

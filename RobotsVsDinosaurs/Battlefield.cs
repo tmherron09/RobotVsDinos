@@ -23,5 +23,21 @@ namespace RobotsVsDinosaurs
             fleet.InitializeFleet();
             herd.InitializeHerd();
         }
+
+        public void RunBattle()
+        {
+            InitializeBattleField();
+
+        }
+
+        public void DebugLogBattleField()
+        {
+            Console.WriteLine("Testing Fleet initialization.");
+            if(fleet.robots.Count == 0)
+            {
+                Console.WriteLine("Fleet not initialized");
+            }
+
+        }
     }
 }

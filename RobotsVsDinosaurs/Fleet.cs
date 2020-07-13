@@ -8,8 +8,8 @@ namespace RobotsVsDinosaurs
 {
     class Fleet
     {
-        List<Robot> robots;
-        List<Weapon> availableWeapons;
+        public List<Robot> robots;
+        public List<Weapon> availableWeapons;
 
         public Fleet()
         {

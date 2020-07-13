@@ -8,10 +8,10 @@ namespace RobotsVsDinosaurs
 {
     class Robot
     {
-        string name;
-        int health;
-        int powerLevel; //stamina
-        Weapon weapon;
+        public string name;
+        public int health;
+        public int powerLevel; //stamina
+        public Weapon weapon;
 
         public Robot(string name, List<Weapon> weaponList)
         {

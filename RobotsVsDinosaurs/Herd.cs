@@ -8,8 +8,8 @@ namespace RobotsVsDinosaurs
 {
     class Herd
     {
-        List<Dinosaur> dinosaurs;
-        List<string> dinosaurTypes;
+        public List<Dinosaur> dinosaurs;
+        public List<string> dinosaurTypes;
         //List<DinosaurAttack> dinosaurAttacks;
 
         public Herd()
