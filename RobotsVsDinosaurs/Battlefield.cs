@@ -65,8 +65,6 @@ namespace RobotsVsDinosaurs
         public void RunBattle()
         {
             InitializeBattleField();
-
-
             do
             {
                 if(isFleetTurn)
@@ -98,7 +96,7 @@ namespace RobotsVsDinosaurs
 
                 isFleetTurn = !isFleetTurn;
 
-            } while (!herd.dinosaurs.Any() || !fleet.robots.Any());
+            } while (herd.dinosaurs.Any() && fleet.robots.Any());
             
 
             Console.ReadLine();
@@ -149,9 +147,11 @@ namespace RobotsVsDinosaurs
             }
             else
             {
-                //ComputerAttackAction();
+                currentTurnRobot = fleet.ComputerChooseRobotToFight();
+                ComputerAttackAction(currentTurnRobot, herd);
             }
         }
+
         public void AttackAction(Robot robot, Herd herd)
         {
             // Choose Weapon
@@ -183,6 +183,10 @@ namespace RobotsVsDinosaurs
                 herd.RemoveDinosaur(herd.dinosaurs[targetPosition]);
             }
         }
+        private void ComputerAttackAction(Robot currentTurnRobot, Herd herd)
+        {
+            throw new NotImplementedException();
+        }
         public void HerdAttackPhase()
         {
             Dinosaur currentTurnDinosaur;
@@ -193,10 +197,12 @@ namespace RobotsVsDinosaurs
             }
             else
             {
-                // ComputerAttackAction();
+                currentTurnDinosaur = herd.ComputerChooseDinosaurToFight();
+                ComputerAttackAction(currentTurnDinosaur, fleet);
             }
         }
         public void AttackAction(Dinosaur dinosaur, Fleet fleet)
+
         {
             // Choose Ability
             //Choose Target
@@ -227,6 +233,10 @@ namespace RobotsVsDinosaurs
                 Console.WriteLine($"{fleet.robots[targetPosition].name} has been destroyed.");
                 fleet.RemoveRobot(fleet.robots[targetPosition]);
             }
+        }
+        private void ComputerAttackAction(Dinosaur currentTurnDinosaur, Fleet fleet)
+        {
+            throw new NotImplementedException();
         }
     }
 }

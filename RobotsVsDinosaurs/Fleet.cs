@@ -61,6 +61,41 @@ namespace RobotsVsDinosaurs
                 } while (!valid);
                 return robots[selection];
         }
+        public Robot ComputerChooseRobotToFight()
+        {
+            Robot strongest = robots[0];
+            Robot robotWithMostPower = robots[0];
+            int largestAttackPower = 0;
+            int largestPowerLevel = 0;
+            foreach (Robot robot in robots)
+            {
+                foreach (Weapon weapon in robot.weaponList)
+                {
+                    if (weapon.attackPower >= largestAttackPower)
+                    {
+                        largestAttackPower = weapon.attackPower;
+                        strongest = robot;
+                    }
+                }
+                if (robot.powerLevel >= largestPowerLevel)
+                {
+                    largestPowerLevel = robot.powerLevel;
+                    robotWithMostPower = robot;
+                }
+            }
+            if (robotWithMostPower == null)
+            {
+                return strongest;
+            }
+            if (robotWithMostPower == strongest)
+            {
+                return robotWithMostPower;
+            }
+            else
+            {
+                return strongest;
+            }
+        }
         public bool CheckHasDied(Robot robot)
         {
             return robot.health <= 0;

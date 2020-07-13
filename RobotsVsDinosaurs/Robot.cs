@@ -12,7 +12,7 @@ namespace RobotsVsDinosaurs
         public int health;
         public int powerLevel; //stamina
         public Weapon weapon;
-        private List<Weapon> weaponList;
+        public List<Weapon> weaponList;
 
         public Robot(string name, List<Weapon> weaponList)
         {
