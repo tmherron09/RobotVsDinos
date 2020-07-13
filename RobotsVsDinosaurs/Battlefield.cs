@@ -11,6 +11,8 @@ namespace RobotsVsDinosaurs
         Fleet fleet;
         Herd herd;
         Random rng;
+        bool isFleetTurn;
+
 
 
         public Battlefield()
@@ -24,12 +26,45 @@ namespace RobotsVsDinosaurs
         {
             fleet.InitializeFleet(rng);
             herd.InitializeHerd(rng);
+            ChooseYourTeam();
+        }
+
+        private void ChooseYourTeam()
+        {
+            bool valid = false;
+            int userInput;
+            Console.WriteLine("Please choose who will go first: ");
+            Console.WriteLine("1) Robots\n2) Dinosaurs");
+            do
+            {
+                valid = Int32.TryParse(Console.ReadLine(), out userInput);
+                if (valid)
+                {
+                    if (userInput == 1)
+                    {
+                        isFleetTurn = true;
+                        break;
+                    }
+                    else if (userInput == 2)
+                    {
+                        isFleetTurn = false;
+                        break;
+                    }
+                    else
+                    {
+                        valid = false;
+                    }
+                }
+                Console.WriteLine("Invalid choice. Please choose again.");
+
+            } while (!valid);
+
         }
 
         public void RunBattle()
         {
             InitializeBattleField();
-
+            ChooseYourTeam();
 
             AttackAction(fleet.robots[0], herd);
             
