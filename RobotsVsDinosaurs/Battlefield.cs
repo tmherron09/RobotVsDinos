@@ -27,16 +27,37 @@ namespace RobotsVsDinosaurs
         public void RunBattle()
         {
             InitializeBattleField();
-
+            DebugLogBattleField();
         }
 
         public void DebugLogBattleField()
         {
             Console.WriteLine("Testing Fleet initialization.");
-            if(fleet.robots.Count == 0)
+            if(fleet.robots.Count != 0)
+            {
+                Console.WriteLine($"Fleet count is {fleet.robots.Count}");
+                foreach(Robot robot in fleet.robots)
+                {
+                    Console.WriteLine($"Robot name: {robot.name} Health: {robot.health} Power Level:{robot.powerLevel}\n Weapon Type: {robot.weapon.name} Weapon Attack Power: {robot.weapon.attackPower}");
+                }
+                foreach(Weapon weapon in fleet.availableWeapons)
+                {
+                    Console.WriteLine($"Weapon Name: {weapon.name} Weapon Attack Power: {weapon.attackPower}");
+                }
+            }
+            else
             {
                 Console.WriteLine("Fleet not initialized");
             }
+            if (herd.dinosaurs.Count == 0)
+            {
+                Console.WriteLine("Herd not initialized correctly.");
+            }
+            else
+            {
+                Console.WriteLine($"Herd count is {herd.dinosaurs.Count}");
+            }
+            Console.WriteLine("End of Debug.");
 
         }
     }

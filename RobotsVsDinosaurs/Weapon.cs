@@ -14,6 +14,11 @@ namespace RobotsVsDinosaurs
         public Weapon(string name)
         {
             this.name = name;
+            InitializeAttackPower();
+        }
+
+        public void InitializeAttackPower()
+        {
             Random rng = new Random();
             attackPower = rng.Next(1, 6) * 10;  // returns 10 - 50 steps of 10
         }
