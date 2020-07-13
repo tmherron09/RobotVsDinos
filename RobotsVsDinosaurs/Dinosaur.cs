@@ -24,6 +24,7 @@ namespace RobotsVsDinosaurs
 
         private int InitializeAttackPower()
         {
+            
             Random rng = new Random();
             return rng.Next(1, 6) * 10; // returns an attack power between 10-50 at steps of 10
         }

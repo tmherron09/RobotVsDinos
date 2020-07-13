@@ -17,5 +17,10 @@ namespace RobotsVsDinosaurs
             fleet = new Fleet();
             herd = new Herd();
         }
+
+        public void InitializeBattleField()
+        {
+            fleet.InitializeFleet();
+        }
     }
 }

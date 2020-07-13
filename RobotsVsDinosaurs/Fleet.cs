@@ -13,22 +13,33 @@ namespace RobotsVsDinosaurs
 
         public Fleet()
         {
-            robots = InitializeFleet();
+            robots = new List<Robot>();
             availableWeapons = new List<Weapon>();
         }
 
-        private List<Robot> InitializeFleet()
+        public void InitializeFleet()
         {
-            throw new NotImplementedException();
-            //List<Robot> robots;
-            //Robot robot = InitializeNewRobot();
-            //robots.Add(robot) 
-            // times 3
-            //return robots;
+            InitializeWeaponList();
+            InitializeNewRobotList();
         }
-        private Robot InitializeNewRobot()
+        private void InitializeNewRobotList()
         {
-            Robot newRobot = new Robot(availableWeapons);
+            string[] names = { "FrazelBot", "Storm 9000", "LED-Tron" };
+            for (int i = 0; i < 3; i++)
+            {
+                robots.Add(new Robot(names[i], availableWeapons));
+            }
         }
+        private void InitializeWeaponList()
+        {
+            List<string> weaponNames = new List<string> { "sword", "lazer sword", "blaster", "robot fists" };
+            for (int i = 0; i < weaponNames.Count; i++)
+            {
+                string weaponName = weaponNames[i];
+                availableWeapons.Add(new Weapon(weaponName));
+            }
+        }
+
+
     }
 }
