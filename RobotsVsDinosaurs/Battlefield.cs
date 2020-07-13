@@ -76,12 +76,12 @@ namespace RobotsVsDinosaurs
         public void AttackAction(Robot robot, Herd herd)
         {
             // Choose Weapon
+            robot.ChooseWeapon();
             //Choose Target
             for (int i = 1; i <= herd.dinosaurs.Count; i++)
             {
                 Console.WriteLine($"{i}: {herd.dinosaurs[i-1].typename}");
             }
-
             int targetPosition;
             bool valid = false;
             do
@@ -92,12 +92,11 @@ namespace RobotsVsDinosaurs
                     valid = (targetPosition > 0 && targetPosition <= herd.dinosaurs.Count);
                     targetPosition--;
                 }
-
             } while (!valid);
             int hitAmount = robot.Attack(herd.dinosaurs[targetPosition]);
             // DisplayAttackInformation()
             //PlaceHolder
-            Console.WriteLine($"{robot.name} hit {herd.dinosaurs[targetPosition].typename} for {hitAmount} damage!");
+            Console.WriteLine($"{robot.name} hit {herd.dinosaurs[targetPosition].typename} with {robot.weapon.name} for {hitAmount} damage!");
             if(herd.CheckHasDied(herd.dinosaurs[targetPosition]))
             {
                 //Display Death Message

@@ -12,11 +12,13 @@ namespace RobotsVsDinosaurs
         public int health;
         public int powerLevel; //stamina
         public Weapon weapon;
+        private List<Weapon> weaponList;
 
         public Robot(string name, List<Weapon> weaponList)
         {
             this.name = name;
-            this.weapon = InitializeWeapon(weaponList);
+            this.weaponList = weaponList;
+            this.weapon = InitializeWeapon(this.weaponList);
             health = 100;
             powerLevel = 30;
         }
@@ -37,5 +39,26 @@ namespace RobotsVsDinosaurs
             health -= hitAmount;
             return hitAmount;
         }
+        public void ChooseWeapon()
+        {
+            for(int i = 0; i < weaponList.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {weaponList[i].name} Attack Power: {weaponList[i].attackPower}");
+            }
+            int weaponChoice;
+            bool valid = false;
+            do
+            {
+                valid = Int32.TryParse(Console.ReadLine(), out weaponChoice);
+                if (valid)
+                {
+                    valid = (weaponChoice > 0 && weaponChoice <= weaponList.Count);
+                    weaponChoice--;
+                }
+            } while (!valid);
+            this.weapon = weaponList[weaponChoice];
+
+        }
+
     }
 }
