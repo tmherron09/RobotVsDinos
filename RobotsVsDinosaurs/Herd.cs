@@ -29,7 +29,21 @@ namespace RobotsVsDinosaurs
                 dinosaurs.Add(new Dinosaur(dinosaurTypes[i], rng));
             }
         }
-
+        public bool CheckHasDied(Dinosaur dinosaur)
+        {
+            return dinosaur.health <= 0;
+        }
+        public void RemoveDinosaur(Dinosaur dinosaur)
+        {
+            if(dinosaurs.Contains(dinosaur))
+            {
+                dinosaurs.Remove(dinosaur);
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
 
     }
 }

@@ -29,7 +29,12 @@ namespace RobotsVsDinosaurs
         public void RunBattle()
         {
             InitializeBattleField();
+
+
+            AttackAction(fleet.robots[0], herd);
             
+
+            Console.ReadLine();
         }
 
         public void DebugLogBattleField()
@@ -74,7 +79,7 @@ namespace RobotsVsDinosaurs
             //Choose Target
             for (int i = 1; i <= herd.dinosaurs.Count; i++)
             {
-                Console.WriteLine($"{i}: {herd.dinosaurs[i].typename}");
+                Console.WriteLine($"{i}: {herd.dinosaurs[i-1].typename}");
             }
 
             int targetPosition;
@@ -85,13 +90,20 @@ namespace RobotsVsDinosaurs
                 if(valid)
                 {
                     valid = (targetPosition > 0 && targetPosition <= herd.dinosaurs.Count);
+                    targetPosition--;
                 }
 
             } while (!valid);
             int hitAmount = robot.Attack(herd.dinosaurs[targetPosition]);
             // DisplayAttackInformation()
             //PlaceHolder
-            Console.WriteLine($"{robot.name} hit {herd.dinosaurs[targetPosition]} for {hitAmount} damage!");
+            Console.WriteLine($"{robot.name} hit {herd.dinosaurs[targetPosition].typename} for {hitAmount} damage!");
+            if(herd.CheckHasDied(herd.dinosaurs[targetPosition]))
+            {
+                //Display Death Message
+                Console.WriteLine($"{herd.dinosaurs[targetPosition].typename} has been destroyed.");
+                herd.RemoveDinosaur(herd.dinosaurs[targetPosition]);
+            }
         }
         public void AttackAction(Dinosaur dinosaur, Fleet fleet)
         {
@@ -99,7 +111,7 @@ namespace RobotsVsDinosaurs
             //Choose Target
             for (int i = 1; i <= fleet.robots.Count; i++)
             {
-                Console.WriteLine($"{i}: {fleet.robots[i].name}");
+                Console.WriteLine($"{i}: {fleet.robots[i-1].name}");
             }
 
             int targetPosition;
@@ -110,13 +122,14 @@ namespace RobotsVsDinosaurs
                 if (valid)
                 {
                     valid = (targetPosition > 0 && targetPosition <= fleet.robots.Count);
+                    targetPosition--;
                 }
 
             } while (!valid);
             int hitAmount = dinosaur.Attack(fleet.robots[targetPosition]);
             // DisplayAttackInformation()
             //PlaceHolder
-            Console.WriteLine($"{dinosaur.typename} hit {fleet.robots[targetPosition]} for {hitAmount} damage!");
+            Console.WriteLine($"{dinosaur.typename} hit {fleet.robots[targetPosition].name} for {hitAmount} damage!");
         }
     }
 }
