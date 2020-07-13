@@ -13,7 +13,7 @@ namespace RobotsVsDinosaurs
         int powerLevel; //stamina
         Weapon weapon;
 
-        public Robot(string name, List<Weapon> weaponList, string weaponName)
+        public Robot(string name, List<Weapon> weaponList)
         {
             this.name = name;
             this.weapon = InitializeWeapon(weaponList);
