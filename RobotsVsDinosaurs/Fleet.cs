@@ -10,6 +10,7 @@ namespace RobotsVsDinosaurs
     {
         public List<Robot> robots;
         public List<Weapon> availableWeapons;
+        public bool isHuman;
 
         public Fleet()
         {
@@ -37,6 +38,29 @@ namespace RobotsVsDinosaurs
             {
                 string weaponName = weaponNames[i];
                 availableWeapons.Add(new Weapon(weaponName, rng));
+            }
+        }
+        public Robot ChooseRobotToFight()
+        {
+            if(isHuman)
+            {
+                Console.WriteLine("Please select which robot to use: ");
+                for(int i = 0; i < robots.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}) {robots[i].name} Weapon: {robots[i].weapon.name} Attack Power: {robots[i].weapon.attackPower}");
+                }
+                int selection;
+                bool valid = false;
+                do
+                {
+                    valid = Int32.TryParse(Console.ReadLine(), out selection);
+                    if (valid)
+                    {
+                        valid = (selection > 0 && selection <= robots.Count);
+                        selection--;
+                    }
+                } while (!valid);
+                return robots[selection];
             }
         }
         public bool CheckHasDied(Robot robot)

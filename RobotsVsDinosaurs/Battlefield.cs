@@ -27,13 +27,14 @@ namespace RobotsVsDinosaurs
             fleet.InitializeFleet(rng);
             herd.InitializeHerd(rng);
             ChooseYourTeam();
+
         }
 
         private void ChooseYourTeam()
         {
             bool valid = false;
             int userInput;
-            Console.WriteLine("Please choose who will go first: ");
+            Console.WriteLine("Please select your team: ");
             Console.WriteLine("1) Robots\n2) Dinosaurs");
             do
             {
@@ -42,12 +43,12 @@ namespace RobotsVsDinosaurs
                 {
                     if (userInput == 1)
                     {
-                        isFleetTurn = true;
+                        fleet.isHuman = true;
                         break;
                     }
                     else if (userInput == 2)
                     {
-                        isFleetTurn = false;
+                        herd.isHuman = true;
                         break;
                     }
                     else
@@ -64,9 +65,37 @@ namespace RobotsVsDinosaurs
         public void RunBattle()
         {
             InitializeBattleField();
-            ChooseYourTeam();
 
-            AttackAction(fleet.robots[0], herd);
+
+            do
+            {
+                if(isFleetTurn)
+                {
+                    if(fleet.isHuman)
+                    {
+                        // Human fleet turn
+                        RobotAttackPhase();
+                    }
+                    else
+                    {
+                        // Computer as fleet turn.
+                    }
+                }
+                else
+                {
+                    if(herd.isHuman)
+                    {
+                        // human herd turn
+                    }
+                    else
+                    {
+                        // Computer as herd turn.
+                    }
+                }
+
+                isFleetTurn = !isFleetTurn;
+
+            } while (!herd.dinosaurs.Any() || !fleet.robots.Any());
             
 
             Console.ReadLine();
@@ -107,7 +136,10 @@ namespace RobotsVsDinosaurs
             Console.WriteLine("End of Debug.");
 
         }
-
+        public void RobotAttackPhase()
+        {
+            Robot currentTurnRobot = fleet.ChooseRobotToFight();
+        }
         public void AttackAction(Robot robot, Herd herd)
         {
             // Choose Weapon
