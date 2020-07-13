@@ -130,6 +130,12 @@ namespace RobotsVsDinosaurs
             // DisplayAttackInformation()
             //PlaceHolder
             Console.WriteLine($"{dinosaur.typename} hit {fleet.robots[targetPosition].name} for {hitAmount} damage!");
+            if (fleet.CheckHasDied(fleet.robots[targetPosition]))
+            {
+                //Display Death Message
+                Console.WriteLine($"{fleet.robots[targetPosition].name} has been destroyed.");
+                fleet.RemoveRobot(fleet.robots[targetPosition]);
+            }
         }
     }
 }

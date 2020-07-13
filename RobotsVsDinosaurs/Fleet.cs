@@ -39,6 +39,21 @@ namespace RobotsVsDinosaurs
                 availableWeapons.Add(new Weapon(weaponName, rng));
             }
         }
+        public bool CheckHasDied(Robot robot)
+        {
+            return robot.health <= 0;
+        }
+        public void RemoveRobot(Robot robot)
+        {
+            if (robots.Contains(robot))
+            {
+                robots.Remove(robot);
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
 
 
     }
