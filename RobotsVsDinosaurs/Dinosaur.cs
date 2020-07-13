@@ -31,13 +31,15 @@ namespace RobotsVsDinosaurs
             
             return rng.Next(1, 6) * 10; // returns an attack power between 10-50 at steps of 10
         }
-        public void Attack(Robot targetRobot)
+        public int Attack(Robot targetRobot)
         {
-            targetRobot.GetHit(attackPower);
+            return targetRobot.GetHit(attackPower);
         }
-        public void GetHit(Weapon weapon)
+        public int GetHit(Weapon weapon)
         {
-            this.health -= weapon.attackPower;
+            int hitAmount = weapon.attackPower;
+            this.health -= hitAmount;
+            return hitAmount;
         }
     }
 }

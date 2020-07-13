@@ -10,10 +10,12 @@ namespace RobotsVsDinosaurs
     {
         public string name;
         public int attackPower;
+        public Random rng;
 
         public Weapon(string name, Random rng)
         {
             this.name = name;
+            this.rng = rng;
             InitializeAttackPower(rng);
         }
 

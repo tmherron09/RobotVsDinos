@@ -67,5 +67,56 @@ namespace RobotsVsDinosaurs
             Console.WriteLine("End of Debug.");
 
         }
+
+        public void AttackAction(Robot robot, Herd herd)
+        {
+            // Choose Weapon
+            //Choose Target
+            for (int i = 1; i <= herd.dinosaurs.Count; i++)
+            {
+                Console.WriteLine($"{i}: {herd.dinosaurs[i].typename}");
+            }
+
+            int targetPosition;
+            bool valid = false;
+            do
+            {
+                valid = Int32.TryParse(Console.ReadLine(), out targetPosition);
+                if(valid)
+                {
+                    valid = (targetPosition > 0 && targetPosition <= herd.dinosaurs.Count);
+                }
+
+            } while (!valid);
+            int hitAmount = robot.Attack(herd.dinosaurs[targetPosition]);
+            // DisplayAttackInformation()
+            //PlaceHolder
+            Console.WriteLine($"{robot.name} hit {herd.dinosaurs[targetPosition]} for {hitAmount} damage!");
+        }
+        public void AttackAction(Dinosaur dinosaur, Fleet fleet)
+        {
+            // Choose Ability
+            //Choose Target
+            for (int i = 1; i <= fleet.robots.Count; i++)
+            {
+                Console.WriteLine($"{i}: {fleet.robots[i].name}");
+            }
+
+            int targetPosition;
+            bool valid = false;
+            do
+            {
+                valid = Int32.TryParse(Console.ReadLine(), out targetPosition);
+                if (valid)
+                {
+                    valid = (targetPosition > 0 && targetPosition <= fleet.robots.Count);
+                }
+
+            } while (!valid);
+            int hitAmount = dinosaur.Attack(fleet.robots[targetPosition]);
+            // DisplayAttackInformation()
+            //PlaceHolder
+            Console.WriteLine($"{dinosaur.typename} hit {fleet.robots[targetPosition]} for {hitAmount} damage!");
+        }
     }
 }

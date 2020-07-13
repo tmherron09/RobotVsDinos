@@ -26,13 +26,16 @@ namespace RobotsVsDinosaurs
             return weaponList[0];
         }
 
-        public void Attack(Dinosaur targetDinosaur)
+        public int Attack(Dinosaur targetDinosaur)
         {
-            targetDinosaur.GetHit(this.weapon);
+            return targetDinosaur.GetHit(this.weapon);
+            
         }
-        public void GetHit(int attackPower)
+        public int GetHit(int attackPower)
         {
-            health -= attackPower;
+            int hitAmount = attackPower;
+            health -= hitAmount;
+            return hitAmount;
         }
     }
 }
