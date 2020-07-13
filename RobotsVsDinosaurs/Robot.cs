@@ -25,5 +25,10 @@ namespace RobotsVsDinosaurs
         {
             return weaponList[0];
         }
+
+        public void Attack(Dinosaur targetDinosaur)
+        {
+            targetDinosaur.GetHit(this.weapon);
+        }
     }
 }

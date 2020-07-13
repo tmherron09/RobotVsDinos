@@ -32,5 +32,10 @@ namespace RobotsVsDinosaurs
             
             return rng.Next(1, 6) * 10; // returns an attack power between 10-50 at steps of 10
         }
+
+        public void GetHit(Weapon weapon)
+        {
+            this.health -= weapon.attackPower;
+        }
     }
 }
