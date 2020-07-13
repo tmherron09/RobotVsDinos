@@ -49,13 +49,18 @@ namespace RobotsVsDinosaurs
             {
                 Console.WriteLine("Fleet not initialized");
             }
-            if (herd.dinosaurs.Count == 0)
+            if (herd.dinosaurs.Count != 0)
             {
-                Console.WriteLine("Herd not initialized correctly.");
+                Console.WriteLine($"Herd count is {herd.dinosaurs.Count}");
+                foreach(Dinosaur dino in herd.dinosaurs)
+                {
+                    Console.WriteLine($"Dino Type: {dino.typename} Dino Health: {dino.health} Dino Power Level: {dino.health} Dino Attack Power: {dino.attackPower}");
+                }
             }
             else
             {
-                Console.WriteLine($"Herd count is {herd.dinosaurs.Count}");
+                
+                Console.WriteLine("Herd not initialized correctly.");
             }
             Console.WriteLine("End of Debug.");
 
