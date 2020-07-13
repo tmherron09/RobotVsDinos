@@ -17,9 +17,9 @@ namespace RobotsVsDinosaurs
             availableWeapons = new List<Weapon>();
         }
 
-        public void InitializeFleet()
+        public void InitializeFleet(Random rng)
         {
-            InitializeWeaponList();
+            InitializeWeaponList(rng);
             InitializeNewRobotList();
         }
         private void InitializeNewRobotList()
@@ -30,13 +30,13 @@ namespace RobotsVsDinosaurs
                 robots.Add(new Robot(names[i], availableWeapons));
             }
         }
-        private void InitializeWeaponList()
+        private void InitializeWeaponList(Random rng)
         {
             List<string> weaponNames = new List<string> { "sword", "lazer sword", "blaster", "robot fists" };
             for (int i = 0; i < weaponNames.Count; i++)
             {
                 string weaponName = weaponNames[i];
-                availableWeapons.Add(new Weapon(weaponName));
+                availableWeapons.Add(new Weapon(weaponName, rng));
             }
         }
 

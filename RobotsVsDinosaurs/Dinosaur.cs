@@ -16,19 +16,18 @@ namespace RobotsVsDinosaurs
         Random rng;
         //string attackName; Add Later
 
-        public Dinosaur(string typeName)
+        public Dinosaur(string typeName, Random rng)
         {
             this.typename = typeName;
             health = 100;
             powerLevel = 30; // stamina
-            rng = new Random();
+            this.rng = rng;
             attackPower = InitializeAttackPower();
         }
 
         private int InitializeAttackPower()
         {
-            int sleepTime = rng.Next(100, 201);
-            Thread.Sleep(sleepTime);
+
             
             return rng.Next(1, 6) * 10; // returns an attack power between 10-50 at steps of 10
         }

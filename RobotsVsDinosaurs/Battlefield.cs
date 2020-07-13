@@ -10,24 +10,26 @@ namespace RobotsVsDinosaurs
     {
         Fleet fleet;
         Herd herd;
+        Random rng;
 
 
         public Battlefield()
         {
             fleet = new Fleet();
             herd = new Herd();
+            rng = new Random();
         }
 
         public void InitializeBattleField()
         {
-            fleet.InitializeFleet();
-            herd.InitializeHerd();
+            fleet.InitializeFleet(rng);
+            herd.InitializeHerd(rng);
         }
 
         public void RunBattle()
         {
             InitializeBattleField();
-            DebugLogBattleField();
+            
         }
 
         public void DebugLogBattleField()

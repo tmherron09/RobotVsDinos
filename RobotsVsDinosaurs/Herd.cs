@@ -18,15 +18,15 @@ namespace RobotsVsDinosaurs
             dinosaurTypes = new List<string> { "Troodon", "Quaesitosaurus", "T-Rex" };
         }
 
-        public void InitializeHerd()
+        public void InitializeHerd(Random rng)
         {
-            InitializeNewDinosaurList();
+            InitializeNewDinosaurList(rng);
         }
-        private void InitializeNewDinosaurList()
+        private void InitializeNewDinosaurList(Random rng)
         {
             for (int i = 0; i < 3; i++)
             {
-                dinosaurs.Add(new Dinosaur(dinosaurTypes[i]));
+                dinosaurs.Add(new Dinosaur(dinosaurTypes[i], rng));
             }
         }
 
