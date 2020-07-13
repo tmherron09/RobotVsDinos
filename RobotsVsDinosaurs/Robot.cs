@@ -30,5 +30,9 @@ namespace RobotsVsDinosaurs
         {
             targetDinosaur.GetHit(this.weapon);
         }
+        public void GetHit(int attackPower)
+        {
+            health -= attackPower;
+        }
     }
 }
