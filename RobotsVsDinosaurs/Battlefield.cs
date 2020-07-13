@@ -79,6 +79,7 @@ namespace RobotsVsDinosaurs
                     else
                     {
                         // Computer as fleet turn.
+                        RobotAttackPhase();
                     }
                 }
                 else
@@ -86,10 +87,12 @@ namespace RobotsVsDinosaurs
                     if(herd.isHuman)
                     {
                         // human herd turn
+                        HerdAttackPhase();
                     }
                     else
                     {
                         // Computer as herd turn.
+                        HerdAttackPhase();
                     }
                 }
 
@@ -138,7 +141,16 @@ namespace RobotsVsDinosaurs
         }
         public void RobotAttackPhase()
         {
-            Robot currentTurnRobot = fleet.ChooseRobotToFight();
+            Robot currentTurnRobot;
+            if (fleet.isHuman)
+            {
+                currentTurnRobot = fleet.ChooseRobotToFight();
+                AttackAction(currentTurnRobot, herd);
+            }
+            else
+            {
+                //ComputerAttackAction();
+            }
         }
         public void AttackAction(Robot robot, Herd herd)
         {
@@ -169,6 +181,19 @@ namespace RobotsVsDinosaurs
                 //Display Death Message
                 Console.WriteLine($"{herd.dinosaurs[targetPosition].typename} has been destroyed.");
                 herd.RemoveDinosaur(herd.dinosaurs[targetPosition]);
+            }
+        }
+        public void HerdAttackPhase()
+        {
+            Dinosaur currentTurnDinosaur;
+            if(herd.isHuman)
+            {
+                currentTurnDinosaur = herd.ChooseDinosaurToFight();
+                AttackAction(currentTurnDinosaur, fleet);
+            }
+            else
+            {
+                // ComputerAttackAction();
             }
         }
         public void AttackAction(Dinosaur dinosaur, Fleet fleet)

@@ -42,8 +42,7 @@ namespace RobotsVsDinosaurs
         }
         public Robot ChooseRobotToFight()
         {
-            if(isHuman)
-            {
+           
                 Console.WriteLine("Please select which robot to use: ");
                 for(int i = 0; i < robots.Count; i++)
                 {
@@ -61,7 +60,6 @@ namespace RobotsVsDinosaurs
                     }
                 } while (!valid);
                 return robots[selection];
-            }
         }
         public bool CheckHasDied(Robot robot)
         {
