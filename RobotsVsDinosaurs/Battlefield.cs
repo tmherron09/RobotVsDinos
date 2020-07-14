@@ -30,6 +30,8 @@ namespace RobotsVsDinosaurs
             InitializeBattleField();
             do
             {
+                //Display whose turn and Current stats.
+                DisplayTurnInfo();
                 // Start turn
                 AttackPhase();
                 Console.ReadLine();
@@ -41,6 +43,38 @@ namespace RobotsVsDinosaurs
             // Display Victory Information
             Console.ReadLine();
         }
+
+        private void DisplayTurnInfo()
+        {
+            UpdateStatsDisplay();
+            if (isFleetTurn)
+            {
+                Console.WriteLine("Robots Turn\n");
+            }
+            else
+            {
+                Console.WriteLine("Dinosaurs turn\n");
+            }
+        }
+
+        private void UpdateStatsDisplay()
+        {
+            string robotInfo = "Robot Stats\n";
+            string dinoInfo = "Dinosaur Stats\n";
+            Console.Clear();
+            Console.SetCursorPosition(0, 20);
+            foreach (Robot robot in fleet.robots)
+            {
+                robotInfo = string.Concat(robotInfo, $"{robot.name}\nHealth: {robot.health,3} Power Level: {robot.powerLevel}\n");
+            }
+            foreach (Dinosaur dino in herd.dinosaurs)
+            {
+                dinoInfo = string.Concat(dinoInfo, $"{dino.typename}\nHealth: {dino.health,3} Power Level: {dino.powerLevel}\n");
+            }
+            Console.WriteLine(robotInfo + "\n----------\n\n" + dinoInfo);
+            Console.SetCursorPosition(0, 0);
+        }
+
         public void InitializeBattleField()
         {
 
@@ -243,7 +277,10 @@ namespace RobotsVsDinosaurs
             {
                 msg = $"{currentTurnRobot.name} MISSED {targetDinosaur.typename} with {currentTurnRobot.weapon.name}!";
             }
+            UpdateStatsDisplay();
+            Console.WriteLine("Robots Turn\n");
             Console.WriteLine(msg);
+            
         }
         public void ReportDinosaurAttackedRobot(Dinosaur currentTurnDinosaur, Robot targetRobot, int hitAmount)
         {
@@ -263,7 +300,10 @@ namespace RobotsVsDinosaurs
             {
                 msg = $"{currentTurnDinosaur.typename} has MISSED {targetRobot.name}!";
             }
+            UpdateStatsDisplay();
+            Console.WriteLine("Dinosaurs Turn\n");
             Console.WriteLine(msg);
+            
         }
 
 

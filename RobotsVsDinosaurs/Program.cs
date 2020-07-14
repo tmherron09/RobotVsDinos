@@ -11,6 +11,10 @@ namespace RobotsVsDinosaurs
     {
         static void Main(string[] args)
         {
+            //Set Window Properties
+            Console.WindowHeight = 40;
+            Console.WindowWidth = 120;
+
             Battlefield debugBattlefield = new Battlefield();
 
             debugBattlefield.RunBattle();
