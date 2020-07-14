@@ -9,7 +9,7 @@ namespace RobotsVsDinosaurs
     class GameSession
     {
         Battlefield battlefield;
-
+        // Start the Battle and reset battle on PlayAgain.
         public void PlayGame()
         {
             do
@@ -18,6 +18,7 @@ namespace RobotsVsDinosaurs
                 battlefield.RunBattle();
             } while (PlayAgain());
         }
+        // Allow player to play again.
         public bool PlayAgain()
         {
 

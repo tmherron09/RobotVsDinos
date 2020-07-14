@@ -32,7 +32,7 @@ namespace RobotsVsDinosaurs
 
         #region Attack/ Attack Type Methods
         // Human attack consisting of choosing attack type. Calls GetHit method on target robot.
-        public int HumanAttack(Robot targetRobot, Random rng)
+        public int HumanAttack(Robot targetRobot, Random rng, Battlefield battlefield)
         {
             // Set to 0 in case of miss.
             int hitAmount = 0;
@@ -51,6 +51,10 @@ namespace RobotsVsDinosaurs
                 {
                     valid = (selection > 0 && selection <= attackTypes.Length);
                     selection--;
+                }
+                if (!valid)
+                {
+                    battlefield.UpdateStatsDisplay();
                 }
             } while (!valid);
             // Calculate if the attack hits based on attack type hit chace.

@@ -26,11 +26,11 @@ namespace RobotsVsDinosaurs
     }
 
         #region Weapon Methods
-        public void InitializeWeapon(Fleet fleet)
+        public void InitializeWeapon(Fleet fleet, Battlefield battlefield)
         {
             if (weapon == null && fleet.isHuman)
             {
-                ChooseWeapon();
+                ChooseWeapon(battlefield);
             }
             else if (weapon == null)
             {
@@ -38,7 +38,7 @@ namespace RobotsVsDinosaurs
                 fleet.ComputerChooseAllWeapons();
             }
         }
-        private void ChooseWeapon()
+        private void ChooseWeapon(Battlefield battlefield)
         {
             int weaponChoice;
             bool valid = false;
@@ -53,6 +53,10 @@ namespace RobotsVsDinosaurs
                 {
                     valid = (weaponChoice > 0 && weaponChoice <= weaponList.Count);
                     weaponChoice--;
+                }
+                if (!valid)
+                {
+                    battlefield.UpdateStatsDisplay();
                 }
             } while (!valid);
             this.weapon = weaponList[weaponChoice];

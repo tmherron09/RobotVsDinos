@@ -60,7 +60,7 @@ namespace RobotsVsDinosaurs
 
         #region Human Choice Methods
         // Display and read Human Player input of which Robot to use to fight.
-        public Robot HumanChooseRobotToFight()
+        public Robot HumanChooseRobotToFight(Battlefield battlefield)
         {
             string msg;
             int selection;
@@ -77,18 +77,22 @@ namespace RobotsVsDinosaurs
                 {
                     valid = (selection > 0 && selection <= robots.Count);
                     selection--;
-                    if (robots[selection].powerLevel <= 0)
+                    if (valid && robots[selection].powerLevel <= 0)
                     {
                         valid = false;
                         msg = $"{robots[selection].name} has no power to fight.";
                         Console.WriteLine(msg);
                     }
                 }
+                if(!valid)
+                {
+                    battlefield.UpdateStatsDisplay();
+                }
             } while (!valid);
             return robots[selection];
         }
         // Display and read Human Player input of which Dinosaur to attack.
-        public Dinosaur HumanChooseTargetDinosaur(Herd herd)
+        public Dinosaur HumanChooseTargetDinosaur(Herd herd, Battlefield battlefield)
         {
             int selection;
             bool valid = false;
@@ -104,6 +108,10 @@ namespace RobotsVsDinosaurs
                 {
                     valid = (selection > 0 && selection <= herd.dinosaurs.Count);
                     selection--;
+                }
+                if(!valid)
+                {
+                    battlefield.UpdateStatsDisplay();
                 }
             } while (!valid);
             return herd.dinosaurs[selection];

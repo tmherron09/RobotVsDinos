@@ -18,7 +18,7 @@ namespace RobotsVsDinosaurs
             dinosaurTypes = new List<string> { "Troodon", "Quaesitosaurus", "T-Rex" };
             isHuman = false;
         }
-        
+
         #region Initialization Methods
         public void InitializeHerd(int health, int powerLevel, int maxPower, int attackPower)
         {
@@ -34,7 +34,7 @@ namespace RobotsVsDinosaurs
         #endregion
 
         #region Human Choice methods
-        public Dinosaur HumanChooseDinosaurToFight()
+        public Dinosaur HumanChooseDinosaurToFight(Battlefield battlefield)
         {
             string msg;
 
@@ -50,19 +50,23 @@ namespace RobotsVsDinosaurs
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
                 {
-                    valid = (selection > 0 && selection <= dinosaurs.Count);
+                    valid = selection > 0 && selection <= dinosaurs.Count;
                     selection--;
-                    if (dinosaurs[selection].powerLevel <= 0)
-                    {
-                        valid = false;
-                        msg = $"{dinosaurs[selection].typename} has no power to fight.";
-                        Console.WriteLine(msg);
-                    }
+                }
+                if (valid && dinosaurs[selection].powerLevel <= 0)
+                {
+                    valid = false;
+                    msg = $"{dinosaurs[selection].typename} has no power to fight.";
+                    Console.WriteLine(msg);
+                }
+                if (!valid)
+                {
+                    battlefield.UpdateStatsDisplay();
                 }
             } while (!valid);
             return dinosaurs[selection];
         }
-        public Robot HumanChooseTargetRobot(Fleet fleet)
+        public Robot HumanChooseTargetRobot(Fleet fleet, Battlefield battlefield)
         {
 
             int selection;
@@ -79,6 +83,10 @@ namespace RobotsVsDinosaurs
                 {
                     valid = (selection > 0 && selection <= fleet.robots.Count);
                     selection--;
+                }
+                if (!valid)
+                {
+                    battlefield.UpdateStatsDisplay();
                 }
             } while (!valid);
             return fleet.robots[selection];

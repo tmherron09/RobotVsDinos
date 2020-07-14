@@ -68,7 +68,7 @@ namespace RobotsVsDinosaurs
             }
         }
         // Temporary method to write stats of Robots and Dinosaurs to lower lines on console.
-        private void UpdateStatsDisplay()
+        public void UpdateStatsDisplay()
         {
             string robotInfo = "Robot Stats\n";
             string dinoInfo = "Dinosaur Stats\n";
@@ -114,10 +114,10 @@ namespace RobotsVsDinosaurs
         {
             bool valid = false;
             int userInput;
-            Console.WriteLine("Please select your team: ");
-            Console.WriteLine("1) Robots\n2) Dinosaurs");
             do
             {
+                Console.WriteLine("Please select your team: ");
+                Console.WriteLine("1) Robots\n2) Dinosaurs");
                 valid = Int32.TryParse(Console.ReadLine(), out userInput);
                 if (valid)
                 {
@@ -137,7 +137,10 @@ namespace RobotsVsDinosaurs
                     }
                 }
                 Console.WriteLine("Invalid choice. Please choose again.");
-
+                if (!valid)
+                {
+                    Console.Clear();
+                }
             } while (!valid);
 
         }
@@ -171,13 +174,13 @@ namespace RobotsVsDinosaurs
                 Robot currentTurnRobot;
                 Dinosaur targetDinosaur;
                 // PLayer Chooses Robot
-                currentTurnRobot = fleet.HumanChooseRobotToFight();
+                currentTurnRobot = fleet.HumanChooseRobotToFight(this);
                 UpdateStatsDisplay();
                 // Player chooses weapon for Robot if not already assigned
-                currentTurnRobot.InitializeWeapon(fleet);
+                currentTurnRobot.InitializeWeapon(fleet, this);
                 UpdateStatsDisplay();
                 // Player ChoosesTargetDinosaur
-                targetDinosaur = fleet.HumanChooseTargetDinosaur(herd);
+                targetDinosaur = fleet.HumanChooseTargetDinosaur(herd, this);
                 UpdateStatsDisplay();
                 // Robot attacks and returns hit amount.
                 hitAmount = currentTurnRobot.Attack(targetDinosaur);
@@ -195,13 +198,13 @@ namespace RobotsVsDinosaurs
                 Dinosaur currentTurnDinosaur;
                 Robot targetRobot;
                 // Player chooses dinosaur
-                currentTurnDinosaur = herd.HumanChooseDinosaurToFight();
+                currentTurnDinosaur = herd.HumanChooseDinosaurToFight(this);
                 UpdateStatsDisplay();
                 // Player chooses target Robot
-                targetRobot = herd.HumanChooseTargetRobot(fleet);
+                targetRobot = herd.HumanChooseTargetRobot(fleet, this);
                 UpdateStatsDisplay();
                 // Player choose attack type and gets hit amount.
-                hitAmount = currentTurnDinosaur.HumanAttack(targetRobot, rng);
+                hitAmount = currentTurnDinosaur.HumanAttack(targetRobot, rng, this);
                 ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
                 herd.UpdatePowerLevels(currentTurnDinosaur);
             }
