@@ -60,7 +60,6 @@ If a unit's health falls to 0, they are destroyed.
 Last Team left standing wins!
 
 Press any key to continue...";
-
             Console.WriteLine(logo);
             Console.Write(gameInfo);
             Console.ReadKey();

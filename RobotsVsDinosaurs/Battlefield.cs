@@ -152,109 +152,135 @@ namespace RobotsVsDinosaurs
         {
             if (isFleetTurn && fleet.isHuman || !isFleetTurn && herd.isHuman)
             {
-                HumanAttackAction();
+                HumanAttackActionCall();
             }
             else
             {
-                ComputerAttackAction();
+                ComputerAttackActionCall();
             }
         }
-        // All method calls for Human to Attack, both Robot and Dinosaur.
-        public void HumanAttackAction()
+        /* Human Player Branch */
+        // Calls for Human Robot attack branch or Dinosaur Attack branch.
+        public void HumanAttackActionCall()
         {
-            int hitAmount;
             if (isFleetTurn)
             {
-                if (!fleet.CheckIfRobotsCanFight())
-                {
-                    Console.WriteLine("No Robots have enough energy to fight.");
-                    fleet.UpdatePowerLevels();
-                    return;
-                }
-                Robot currentTurnRobot;
-                Dinosaur targetDinosaur;
-                // PLayer Chooses Robot
-                currentTurnRobot = fleet.HumanChooseRobotToFight(this);
-                UpdateStatsDisplay();
-                // Player chooses weapon for Robot if not already assigned
-                currentTurnRobot.InitializeWeapon(fleet, this);
-                UpdateStatsDisplay();
-                // Player ChoosesTargetDinosaur
-                targetDinosaur = fleet.HumanChooseTargetDinosaur(herd, this);
-                UpdateStatsDisplay();
-                // Robot attacks and returns hit amount.
-                hitAmount = currentTurnRobot.Attack(targetDinosaur);
-                ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
-                fleet.UpdatePowerLevels(currentTurnRobot);
+                HumanRobotAttackAction();
             }
             else
             {
-                if (!herd.CheckIfDinosaursCanFight())
-                {
-                    Console.WriteLine("No Dinosaur has enough energy to fight.");
-                    herd.UpdatePowerLevels();
-                    return;
-                }
-                Dinosaur currentTurnDinosaur;
-                Robot targetRobot;
-                // Player chooses dinosaur
-                currentTurnDinosaur = herd.HumanChooseDinosaurToFight(this);
-                UpdateStatsDisplay();
-                // Player chooses target Robot
-                targetRobot = herd.HumanChooseTargetRobot(fleet, this);
-                UpdateStatsDisplay();
-                // Player choose attack type and gets hit amount.
-                hitAmount = currentTurnDinosaur.HumanAttack(targetRobot, rng, this);
-                ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
-                herd.UpdatePowerLevels(currentTurnDinosaur);
+                HumanDinosaurAttackAction();
             }
         }
+        // Human Robot Attack Turn steps
+        private void HumanRobotAttackAction()
+        {
+            int hitAmount;
+            if (!fleet.CheckIfRobotsCanFight())
+            {
+                Console.WriteLine("No Robots have enough energy to fight.");
+                fleet.UpdatePowerLevels();
+                return;
+            }
+            Robot currentTurnRobot;
+            Dinosaur targetDinosaur;
+            // PLayer Chooses Robot
+            currentTurnRobot = fleet.HumanChooseRobotToFight(this);
+            UpdateStatsDisplay();
+            // Player chooses weapon for Robot if not already assigned
+            currentTurnRobot.InitializeWeapon(fleet, this);
+            UpdateStatsDisplay();
+            // Player ChoosesTargetDinosaur
+            targetDinosaur = fleet.HumanChooseTargetDinosaur(herd, this);
+            UpdateStatsDisplay();
+            // Robot attacks and returns hit amount.
+            hitAmount = currentTurnRobot.Attack(targetDinosaur);
+            ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
+            fleet.UpdatePowerLevels(currentTurnRobot);
+        }
+        // Human Dinosaur Attack Turn steps
+        private void HumanDinosaurAttackAction()
+        {
+            int hitAmount;
+            if (!herd.CheckIfDinosaursCanFight())
+            {
+                Console.WriteLine("No Dinosaur has enough energy to fight.");
+                herd.UpdatePowerLevels();
+                return;
+            }
+            Dinosaur currentTurnDinosaur;
+            Robot targetRobot;
+            // Player chooses dinosaur
+            currentTurnDinosaur = herd.HumanChooseDinosaurToFight(this);
+            UpdateStatsDisplay();
+            // Player chooses target Robot
+            targetRobot = herd.HumanChooseTargetRobot(fleet, this);
+            UpdateStatsDisplay();
+            // Player choose attack type and gets hit amount.
+            hitAmount = currentTurnDinosaur.HumanAttack(targetRobot, rng, this);
+            ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
+            herd.UpdatePowerLevels(currentTurnDinosaur);
+        }
+        /* Computer Player Branch */
         // Calls methods to run Computer turn. Both Robot/Dinosaur.
-        private void ComputerAttackAction()
+        private void ComputerAttackActionCall()
         {
-            int hitAmount;
+            
             if (isFleetTurn)
             {
-                if (!fleet.CheckIfRobotsCanFight())
-                {
-                    Console.WriteLine("No Robots have enough energy to fight.");
-                    fleet.UpdatePowerLevels();
-                    return;
-                }
-                Robot currentTurnRobot;
-                Dinosaur targetDinosaur;
-                // Computer chooses Robot
-                currentTurnRobot = fleet.ComputerChooseRobotToFight(rng);
-                // Computer Selects Target
-                targetDinosaur = fleet.ComputeChooseTargetDinosaur(herd, rng);
-                // Computer attacks and returns hit amount.
-                hitAmount = currentTurnRobot.Attack(targetDinosaur);
-                ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
-                fleet.UpdatePowerLevels(currentTurnRobot);
+                ComputerRobotAttackAction();
             }
             else
             {
-                if (!herd.CheckIfDinosaursCanFight())
-                {
-                    Console.WriteLine("No Dinosaur has enough energy to fight.");
-                    herd.UpdatePowerLevels();
-                    return;
-                }
-                Dinosaur currentTurnDinosaur;
-                Robot targetRobot;
-                // Computer chooses dinosaur
-                currentTurnDinosaur = herd.ComputerChooseDinosaurToFight();
-                // Computer chooses target
-                targetRobot = herd.ComputerChooseTargetRobot(fleet, rng);
-                // Computer chooses Attack Type
-                // ComputerChooseAttackType(targetRobot) and returns hit amount.
-                hitAmount = currentTurnDinosaur.ComputerChooseAttackType(targetRobot, herd, rng);
-                ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
-                herd.UpdatePowerLevels(currentTurnDinosaur);
+                ComputerDinosaurAttackAction();
             }
 
         }
+        // Computer Robot Attack Turn Logic
+        private void ComputerRobotAttackAction()
+        {
+            int hitAmount;
+            if (!fleet.CheckIfRobotsCanFight())
+            {
+                Console.WriteLine("No Robots have enough energy to fight.");
+                fleet.UpdatePowerLevels();
+                return;
+            }
+            Robot currentTurnRobot;
+            Dinosaur targetDinosaur;
+            // Computer chooses Robot
+            currentTurnRobot = fleet.ComputerChooseRobotToFight(rng);
+            // Computer Selects Target
+            targetDinosaur = fleet.ComputeChooseTargetDinosaur(herd, rng);
+            // Computer attacks and returns hit amount.
+            hitAmount = currentTurnRobot.Attack(targetDinosaur);
+            ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
+            fleet.UpdatePowerLevels(currentTurnRobot);
+        }
+        // Computer Dinosaur Attack Turn Logic
+        private void ComputerDinosaurAttackAction()
+        {
+            int hitAmount;
+            if (!herd.CheckIfDinosaursCanFight())
+            {
+                Console.WriteLine("No Dinosaur has enough energy to fight.");
+                herd.UpdatePowerLevels();
+                return;
+            }
+            Dinosaur currentTurnDinosaur;
+            Robot targetRobot;
+            // Computer chooses dinosaur
+            currentTurnDinosaur = herd.ComputerChooseDinosaurToFight();
+            // Computer chooses target
+            targetRobot = herd.ComputerChooseTargetRobot(fleet, rng);
+            // Computer chooses Attack Type
+            // ComputerChooseAttackType(targetRobot) and returns hit amount.
+            hitAmount = currentTurnDinosaur.ComputerChooseAttackType(targetRobot, herd, rng);
+            ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
+            herd.UpdatePowerLevels(currentTurnDinosaur);
+        }
         #endregion
+
 
         #region Attack Reports
         // Creates a msg based on Result of Robots turn.
