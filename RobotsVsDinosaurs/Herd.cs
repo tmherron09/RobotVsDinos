@@ -32,23 +32,30 @@ namespace RobotsVsDinosaurs
         }
         public Dinosaur ChooseDinosaurToFight()
         {
-                Console.WriteLine("Choose a dinosaur: ");
-                for (int i = 0; i < dinosaurs.Count; i++)
+            string msg;
+            Console.WriteLine("Choose a dinosaur: ");
+            for (int i = 0; i < dinosaurs.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {dinosaurs[i].typename} Power Level: {dinosaurs[i].powerLevel}");
+            }
+            int selection;
+            bool valid = false;
+            do
+            {
+                valid = Int32.TryParse(Console.ReadLine(), out selection);
+                if (valid)
                 {
-                    Console.WriteLine($"{i + 1}) {dinosaurs[i].typename} Attack Power: {dinosaurs[i].attackPower}");
-                }
-                int selection;
-                bool valid = false;
-                do
-                {
-                    valid = Int32.TryParse(Console.ReadLine(), out selection);
-                    if (valid)
+                    valid = (selection > 0 && selection <= dinosaurs.Count);
+                    selection--;
+                    if (dinosaurs[selection].powerLevel <= 0)
                     {
-                        valid = (selection > 0 && selection <= dinosaurs.Count);
-                        selection--;
+                        valid = false;
+                        msg = $"{dinosaurs[selection].typename} has no power to fight.";
+                        Console.WriteLine(msg);
                     }
-                } while (!valid);
-                return dinosaurs[selection];
+                }
+            } while (!valid);
+            return dinosaurs[selection];
         }
         public Dinosaur ComputerChooseDinosaurToFight()
         {
@@ -56,20 +63,20 @@ namespace RobotsVsDinosaurs
             Dinosaur dinoWithMostPower = dinosaurs[0];
             int largestAttackPower = 0;
             int largestPowerLevel = 0;
-            foreach(Dinosaur dino in dinosaurs)
+            foreach (Dinosaur dino in dinosaurs)
             {
-                if(dino.attackPower >= largestAttackPower)
+                if (dino.attackPower >= largestAttackPower)
                 {
                     largestAttackPower = dino.attackPower;
                     strongest = dino;
                 }
-                if(dino.powerLevel >= largestPowerLevel)
+                if (dino.powerLevel >= largestPowerLevel)
                 {
                     largestPowerLevel = dino.powerLevel;
                     dinoWithMostPower = dino;
                 }
             }
-            if(dinoWithMostPower == null)
+            if (dinoWithMostPower == null)
             {
                 return strongest;
             }
@@ -88,7 +95,7 @@ namespace RobotsVsDinosaurs
         }
         public void RemoveDinosaur(Dinosaur dinosaur)
         {
-            if(dinosaurs.Contains(dinosaur))
+            if (dinosaurs.Contains(dinosaur))
             {
                 dinosaurs.Remove(dinosaur);
             }
@@ -145,7 +152,23 @@ namespace RobotsVsDinosaurs
             } while (!valid);
             return fleet.robots[selection];
         }
-
+        public void UpdatePowerLevels(Dinosaur currentTurnDinosaur)
+        {
+            foreach (Dinosaur dino in dinosaurs)
+            {
+                if (currentTurnDinosaur == dino)
+                {
+                    currentTurnDinosaur.powerLevel -= 10;
+                }
+                else
+                {
+                    if (dino.powerLevel <= dino.maxPowerLevel)
+                    {
+                        dino.powerLevel += 10;
+                    }
+                }
+            }
+        }
 
     }
 }

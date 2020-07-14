@@ -12,6 +12,7 @@ namespace RobotsVsDinosaurs
         public string typename;
         public int health;
         public int powerLevel;
+        public int maxPowerLevel;
         public int attackPower;
         public string[] attackTypes;
         public double[] attackTypesModifiers;
@@ -21,7 +22,8 @@ namespace RobotsVsDinosaurs
         {
             this.typename = typeName;
             health = 100;
-            powerLevel = 20; // stamina
+            powerLevel = 30; // stamina
+            maxPowerLevel = 60;
             attackPower = 30;
             attackTypes = new string[] { "Scratch", "Bite", "Tail Whip" };
             attackTypesModifiers = new double[] { 1.25, 2.00, 1.00 };

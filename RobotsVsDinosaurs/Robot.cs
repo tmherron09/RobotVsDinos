@@ -11,6 +11,7 @@ namespace RobotsVsDinosaurs
         public string name;
         public int health;
         public int powerLevel; //stamina
+        public int maxPowerLevel;
         public Weapon weapon;
         public List<Weapon> weaponList;
 
@@ -19,8 +20,9 @@ namespace RobotsVsDinosaurs
             this.name = name;
             this.weaponList = weaponList;
             health = 100;
-            powerLevel = 30;
-        }
+            powerLevel = 20;
+            maxPowerLevel = 20;
+    }
 
         public void InitializeWeapon(Fleet fleet)
         {

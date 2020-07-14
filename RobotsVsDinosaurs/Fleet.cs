@@ -12,10 +12,12 @@ namespace RobotsVsDinosaurs
         public List<Weapon> availableWeapons;
         public bool isHuman;
 
+
         public Fleet()
         {
             robots = new List<Robot>();
             availableWeapons = new List<Weapon>();
+            maxPowerLevel = 20;
         }
 
         public void InitializeFleet(Random rng)
@@ -42,24 +44,30 @@ namespace RobotsVsDinosaurs
         }
         public Robot ChooseRobotToFight()
         {
-           
-                Console.WriteLine("Please select which robot to use: ");
-                for(int i = 0; i < robots.Count; i++)
+            string msg;
+            Console.WriteLine("Please select which robot to use: ");
+            for (int i = 0; i < robots.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {robots[i].name} Power Level: {robots[i].powerLevel}");
+            }
+            int selection;
+            bool valid = false;
+            do
+            {
+                valid = Int32.TryParse(Console.ReadLine(), out selection);
+                if (valid)
                 {
-                    Console.WriteLine($"{i + 1}) {robots[i].name}");
-                }
-                int selection;
-                bool valid = false;
-                do
-                {
-                    valid = Int32.TryParse(Console.ReadLine(), out selection);
-                    if (valid)
+                    valid = (selection > 0 && selection <= robots.Count);
+                    selection--;
+                    if (robots[selection].powerLevel <= 0)
                     {
-                        valid = (selection > 0 && selection <= robots.Count);
-                        selection--;
+                        valid = false;
+                        msg = $"{robots[selection].name} has no power to fight.";
+                        Console.WriteLine(msg);
                     }
-                } while (!valid);
-                return robots[selection];
+                }
+            } while (!valid);
+            return robots[selection];
         }
         public Robot ComputerChooseRobotToFight()
         {
@@ -118,19 +126,19 @@ namespace RobotsVsDinosaurs
             // Set default to first in Dinosaur list to prevent uninitialized error
             Dinosaur targetLeastHealthDinosaur = herd.dinosaurs[0];
             Dinosaur targetLeastPowerDiinosaur = herd.dinosaurs[0];
-            foreach(Dinosaur dino in herd.dinosaurs)
+            foreach (Dinosaur dino in herd.dinosaurs)
             {
-                if(dino.health < leastHealth)
+                if (dino.health < leastHealth)
                 {
                     targetLeastHealthDinosaur = dino;
                 }
-                if(dino.powerLevel < leastPower)
+                if (dino.powerLevel < leastPower)
                 {
                     targetLeastPowerDiinosaur = dino;
                 }
             }
             // Computer will randomly target either the Dino with least health or Power, to help balance.
-            if(rng.Next() % 2 == 0)
+            if (rng.Next() % 2 == 0)
             {
                 return targetLeastHealthDinosaur;
             }
@@ -159,6 +167,24 @@ namespace RobotsVsDinosaurs
                 }
             } while (!valid);
             return herd.dinosaurs[selection];
+        }
+
+        public void UpdatePowerLevels(Robot currentTurnRobot)
+        {
+            foreach (Robot robot in robots)
+            {
+                if (currentTurnRobot == robot)
+                {
+                    currentTurnRobot.powerLevel -= 10;
+                }
+                else
+                {
+                    if (robot.powerLevel <= robot.maxPowerLevel)
+                    {
+                        robot.powerLevel += 10;
+                    }
+                }
+            }
         }
     }
 }

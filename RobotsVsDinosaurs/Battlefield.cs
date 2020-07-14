@@ -149,6 +149,7 @@ namespace RobotsVsDinosaurs
                 // Robot attacks and returns hit amount.
                 hitAmount = currentTurnRobot.Attack(targetDinosaur);
                 ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
+                fleet.UpdatePowerLevels(currentTurnRobot);
             }
             else
             {
@@ -161,6 +162,7 @@ namespace RobotsVsDinosaurs
                 // Player choose attack type and gets hit amount.
                 hitAmount = currentTurnDinosaur.HumanAttack(targetRobot, herd, rng);
                 ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
+                herd.UpdatePowerLevels(currentTurnDinosaur);
             }
         }
         private void ComputerAttackAction()
@@ -179,6 +181,7 @@ namespace RobotsVsDinosaurs
                 // Computer attacks and returns hit amount.
                 hitAmount = currentTurnRobot.Attack(targetDinosaur);
                 ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
+                fleet.UpdatePowerLevels(currentTurnRobot);
             }
             else
             {
@@ -192,6 +195,7 @@ namespace RobotsVsDinosaurs
                 // ComputerChooseAttackType(targetRobot) and returns hit amount.
                 hitAmount = currentTurnDinosaur.ComputerChooseAttackType(targetRobot, herd, rng);
                 ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
+                fleet.UpdatePowerLevels(currentTurnRobot);
             }
 
         }
