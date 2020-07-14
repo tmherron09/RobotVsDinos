@@ -17,7 +17,6 @@ namespace RobotsVsDinosaurs
         {
             robots = new List<Robot>();
             availableWeapons = new List<Weapon>();
-            maxPowerLevel = 20;
         }
 
         public void InitializeFleet(Random rng)
@@ -104,6 +103,20 @@ namespace RobotsVsDinosaurs
                 return robotWithMostPower;
             }
         }
+
+        public bool CheckIfRobotsCanFight()
+        {
+            int hasPowerCount = 0;
+            foreach (Robot robot in robots)
+            {
+                if (robot.powerLevel > 0)
+                {
+                    hasPowerCount++;
+                }
+            }
+            return hasPowerCount > 0 ? true : false;
+        }
+
         public bool CheckHasDied(Robot robot)
         {
             return robot.health <= 0;
@@ -148,6 +161,8 @@ namespace RobotsVsDinosaurs
             }
         }
 
+
+
         public Dinosaur HumanChooseTargetDinosaur(Herd herd)
         {
             Console.WriteLine("Choose a dinosaur to attack: ");
@@ -184,6 +199,14 @@ namespace RobotsVsDinosaurs
                         robot.powerLevel += 10;
                     }
                 }
+            }
+        }
+        public void UpdatePowerLevels()
+        {
+            // Called if no units have energy.
+            foreach (Robot robot in robots)
+            {
+                robot.powerLevel += 10;
             }
         }
     }

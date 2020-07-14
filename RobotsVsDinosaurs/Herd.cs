@@ -170,5 +170,25 @@ namespace RobotsVsDinosaurs
             }
         }
 
+        public void UpdatePowerLevels()
+        {
+            foreach (Dinosaur dino in dinosaurs)
+            {
+                dino.powerLevel += 10;
+            }
+        }
+
+            public bool CheckIfDinosaursCanFight()
+            {
+                int hasPowerCount = 0;
+                foreach (Dinosaur dino in dinosaurs)
+                {
+                    if (dino.powerLevel > 0)
+                    {
+                        hasPowerCount++;
+                    }
+                }
+                return hasPowerCount > 0 ? true : false;
+            }
+        }
     }
-}

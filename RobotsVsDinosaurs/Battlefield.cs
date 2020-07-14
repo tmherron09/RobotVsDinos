@@ -126,7 +126,7 @@ namespace RobotsVsDinosaurs
         {
             if (isFleetTurn && fleet.isHuman || !isFleetTurn && herd.isHuman)
             {
-                    HumanAttackAction();
+                HumanAttackAction();
             }
             else
             {
@@ -138,6 +138,12 @@ namespace RobotsVsDinosaurs
             int hitAmount;
             if (isFleetTurn)
             {
+                if(!fleet.CheckIfRobotsCanFight())
+                {
+                    Console.WriteLine("No Robots have enough energy to fight.");
+                    fleet.UpdatePowerLevels();
+                    return;
+                }
                 Robot currentTurnRobot;
                 Dinosaur targetDinosaur;
                 // PLayer Chooses Robot
@@ -153,6 +159,12 @@ namespace RobotsVsDinosaurs
             }
             else
             {
+                if(!herd.CheckIfDinosaursCanFight())
+                {
+                    Console.WriteLine("No Dinosaur has enough energy to fight.");
+                    herd.UpdatePowerLevels();
+                    return;
+                }
                 Dinosaur currentTurnDinosaur;
                 Robot targetRobot;
                 // Player chooses dinosaur
@@ -170,6 +182,12 @@ namespace RobotsVsDinosaurs
             int hitAmount;
             if (isFleetTurn)
             {
+                if (!fleet.CheckIfRobotsCanFight())
+                {
+                    Console.WriteLine("No Robots have enough energy to fight.");
+                    fleet.UpdatePowerLevels();
+                    return;
+                }
                 Robot currentTurnRobot;
                 Dinosaur targetDinosaur;
                 // Computer chooses Robot
@@ -185,6 +203,12 @@ namespace RobotsVsDinosaurs
             }
             else
             {
+                if (!herd.CheckIfDinosaursCanFight())
+                {
+                    Console.WriteLine("No Dinosaur has enough energy to fight.");
+                    herd.UpdatePowerLevels();
+                    return;
+                }
                 Dinosaur currentTurnDinosaur;
                 Robot targetRobot;
                 // Computer chooses dinosaur
@@ -195,7 +219,7 @@ namespace RobotsVsDinosaurs
                 // ComputerChooseAttackType(targetRobot) and returns hit amount.
                 hitAmount = currentTurnDinosaur.ComputerChooseAttackType(targetRobot, herd, rng);
                 ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
-                fleet.UpdatePowerLevels(currentTurnRobot);
+                herd.UpdatePowerLevels(currentTurnDinosaur);
             }
 
         }
