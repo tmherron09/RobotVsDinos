@@ -23,6 +23,24 @@ namespace RobotsVsDinosaurs
             rng = new Random();
         }
 
+
+        public void RunBattle()
+        {
+            hasWinner = false;
+            InitializeBattleField();
+            do
+            {
+                // Start turn
+                AttackPhase();
+                Console.ReadLine();
+                // Change whose turn it is.
+                isFleetTurn = !isFleetTurn;
+                // TODO Add WinningConditionMet method (herd.dinosaurs.Any() && fleet.robots.Any())
+                hasWinner = WinningConditionMet();
+            } while (!hasWinner);
+            // Display Victory Information
+            Console.ReadLine();
+        }
         public void InitializeBattleField()
         {
             fleet.InitializeFleet(rng);
@@ -61,26 +79,13 @@ namespace RobotsVsDinosaurs
             } while (!valid);
 
         }
-        public void RunBattle()
-        {
-            hasWinner = false;
-            InitializeBattleField();
-            do
-            {
-                // Start turn
-                AttackPhase();
-                // Change whose turn it is.
-                isFleetTurn = !isFleetTurn;
-                // TODO Add WinningConditionMet method (herd.dinosaurs.Any() && fleet.robots.Any())
-                hasWinner = WinningConditionMet();
-            } while (!hasWinner);
-            // Display Victory Information
-            Console.ReadLine();
-        }
         private bool WinningConditionMet()
         {
-            // Check if either List of Robot or Dino is Empty or all null
-            throw new NotImplementedException();
+            if(!fleet.robots.Any() || !herd.dinosaurs.Any())
+            {
+                return true;
+            }
+            return false;
         }
         public void DebugLogBattleField()
         {
@@ -143,7 +148,7 @@ namespace RobotsVsDinosaurs
                 targetDinosaur = fleet.HumanChooseTargetDinosaur(herd);
                 // Robot attacks and returns hit amount.
                 hitAmount = currentTurnRobot.Attack(targetDinosaur);
-                // TODO: RobotAttackedDinosaur()
+                ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
             }
             else
             {
@@ -155,7 +160,7 @@ namespace RobotsVsDinosaurs
                 targetRobot = herd.HumanChooseTargetRobot(fleet);
                 // Player choose attack type and gets hit amount.
                 hitAmount = currentTurnDinosaur.HumanAttack(targetRobot, herd, rng);
-                // DinosaurAttackedRobot()
+                ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
             }
         }
         private void ComputerAttackAction()
@@ -173,7 +178,7 @@ namespace RobotsVsDinosaurs
                 targetDinosaur = fleet.ComputeChooseTargetDinosaur(herd, rng);
                 // Computer attacks and returns hit amount.
                 hitAmount = currentTurnRobot.Attack(targetDinosaur);
-                // TODO: RobotAttackedDinosaur()
+                ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
             }
             else
             {
@@ -186,12 +191,43 @@ namespace RobotsVsDinosaurs
                 // Computer chooses Attack Type
                 // ComputerChooseAttackType(targetRobot) and returns hit amount.
                 hitAmount = currentTurnDinosaur.ComputerChooseAttackType(targetRobot, herd, rng);
-                // DinosaurAttackedRobot()
+                ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
             }
 
         }
-        // Depreciated Attack action: TODO Refactor in Human/ComputerAttackAction and HitCalculation methods.
-        public void AttackAction(Robot robot, Herd herd)
+
+        public void ReportRobotAttackedDinosaur(Robot currentTurnRobot, Dinosaur targetDinosaur, int hitAmount)
+        {
+            string msg;
+            if(hitAmount > 0)
+            {
+                msg = $"{currentTurnRobot.name} hit {targetDinosaur.typename} with {currentTurnRobot.weapon.name} for {hitAmount} damage!";
+                //CheckIfDinosaurDied(targetDinosaur);
+            }
+            else
+            {
+                msg = $"{currentTurnRobot.name} MISSED {targetDinosaur.typename} with {currentTurnRobot.weapon.name}!";
+            }
+            Console.WriteLine(msg);
+        }
+        public void ReportDinosaurAttackedRobot(Dinosaur currentTurnDinosaur, Robot targetRobot, int hitAmount)
+        {
+            string msg;
+            if (hitAmount > 0)
+            {
+                msg = $"{currentTurnDinosaur.typename} hit {targetRobot.name} for {hitAmount} damage!";
+            }
+            else
+            {
+                msg = $"{currentTurnDinosaur.typename} has MISSED {targetRobot.name}!";
+            }
+            Console.WriteLine(msg);
+        }
+
+
+
+            // Depreciated Attack action: TODO Refactor in Human/ComputerAttackAction and HitCalculation methods.
+            public void AttackAction(Robot robot, Herd herd)
         {
             //Choose Target
             for (int i = 1; i <= herd.dinosaurs.Count; i++)

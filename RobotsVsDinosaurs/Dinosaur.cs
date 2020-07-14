@@ -15,7 +15,7 @@ namespace RobotsVsDinosaurs
         public int attackPower;
         public string[] attackTypes;
         public double[] attackTypesModifiers;
-        public int[] attackTypeModifierHitChance; 
+        public int[] attackTypeModifierHitChance;
 
         public Dinosaur(string typeName)
         {
@@ -32,27 +32,27 @@ namespace RobotsVsDinosaurs
         {
             int hitAmount = 0;
 
-                Console.WriteLine("Choose an Attack: ");
-                for (int i = 0; i < attackTypes.Length; i++)
+            Console.WriteLine("Choose an Attack: ");
+            for (int i = 0; i < attackTypes.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}) {attackTypes[i]} Hit Chance: {attackTypeModifierHitChance[i]}%  Bonus: x{attackTypesModifiers[i]} damage");
+            }
+            int selection;
+            bool valid = false;
+            do
+            {
+                valid = Int32.TryParse(Console.ReadLine(), out selection);
+                if (valid)
                 {
-                    Console.WriteLine($"{i + 1}) {attackTypes[i]} Hit Chance: {attackTypeModifierHitChance[i]}%  Bonus: x{attackTypesModifiers[i]} damage");
+                    valid = (selection > 0 && selection <= attackTypes.Length);
+                    selection--;
                 }
-                int selection;
-                bool valid = false;
-                do
-                {
-                    valid = Int32.TryParse(Console.ReadLine(), out selection);
-                    if (valid)
-                    {
-                        valid = (selection > 0 && selection <= attackTypes.Length);
-                        selection--;
-                    }
-                } while (!valid);
-                if(rng.Next(101) < attackTypeModifierHitChance[selection])
-                {
-                    hitAmount = (int)(attackPower * attackTypesModifiers[selection]);
-                }
-                return targetRobot.GetHit(hitAmount);
+            } while (!valid);
+            if (rng.Next(101) < attackTypeModifierHitChance[selection])
+            {
+                hitAmount = (int)(attackPower * attackTypesModifiers[selection]);
+            }
+            return targetRobot.GetHit(hitAmount);
         }
         public int GetHit(Weapon weapon)
         {
@@ -67,9 +67,9 @@ namespace RobotsVsDinosaurs
             int attackChoice = 0;
             // Logic chain for Computer Choosing Attack target.
             // 0 = Scratch, 1 = Bite 2 = Tail Whip
-            if(targetRobot.health < 50) // target health < 50, 50% chance to try and Bite, finishing off Robot
+            if (targetRobot.health < 50) // target health < 50, 50% chance to try and Bite, finishing off Robot
             {
-                if(rng.Next() % 2 == 0)
+                if (rng.Next() % 2 == 0)
                 {
                     attackChoice = 1;
                 }
@@ -78,14 +78,14 @@ namespace RobotsVsDinosaurs
             {
                 attackChoice = 2;
             }
-            else if(health > 60)
+            else if (health > 60)
             {
                 attackChoice = 0;
             }
             else
             {
                 // Default is random choice. TODO set more rules.
-                attackChoice = rng.Next(0,3);
+                attackChoice = rng.Next(0, 3);
             }
             // Determin if hit is successfull. hit amount stays 0 if fails.
             if (rng.Next(101) < attackTypeModifierHitChance[attackChoice])
@@ -93,7 +93,7 @@ namespace RobotsVsDinosaurs
                 hitAmount = (int)(attackPower * attackTypesModifiers[attackChoice]);
             }
             return targetRobot.GetHit(hitAmount);
-            }
         }
     }
 }
+
