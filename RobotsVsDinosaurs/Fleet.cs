@@ -145,7 +145,7 @@ namespace RobotsVsDinosaurs
             Console.WriteLine("Choose a dinosaur to attack: ");
             for (int i = 0; i < herd.dinosaurs.Count; i++)
             {
-                Console.WriteLine($"{i + 1}) {herd.dinosaurs[i].typename} Attack Power: {herd.dinosaurs[i].attackPower}");
+                Console.WriteLine($"{i + 1}) {herd.dinosaurs[i].typename} Health: {herd.dinosaurs[i].health}");
             }
             int selection;
             bool valid = false;

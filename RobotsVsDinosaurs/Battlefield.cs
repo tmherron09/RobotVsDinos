@@ -199,10 +199,16 @@ namespace RobotsVsDinosaurs
         public void ReportRobotAttackedDinosaur(Robot currentTurnRobot, Dinosaur targetDinosaur, int hitAmount)
         {
             string msg;
+            bool isDead;
             if(hitAmount > 0)
             {
                 msg = $"{currentTurnRobot.name} hit {targetDinosaur.typename} with {currentTurnRobot.weapon.name} for {hitAmount} damage!";
-                //CheckIfDinosaurDied(targetDinosaur);
+                isDead = herd.CheckHasDied(targetDinosaur);
+                if(isDead)
+                {
+                    msg = string.Concat(msg + $"\t{targetDinosaur.typename} has been destroyed.");
+                    herd.RemoveDinosaur(targetDinosaur);
+                }
             }
             else
             {
@@ -213,9 +219,16 @@ namespace RobotsVsDinosaurs
         public void ReportDinosaurAttackedRobot(Dinosaur currentTurnDinosaur, Robot targetRobot, int hitAmount)
         {
             string msg;
+            bool isDead;
             if (hitAmount > 0)
             {
                 msg = $"{currentTurnDinosaur.typename} hit {targetRobot.name} for {hitAmount} damage!";
+                isDead = fleet.CheckHasDied(targetRobot);
+                if (isDead)
+                {
+                    msg = string.Concat(msg + $"\t{targetRobot.name} has been destroyed.");
+                    fleet.RemoveRobot(targetRobot);
+                }
             }
             else
             {
