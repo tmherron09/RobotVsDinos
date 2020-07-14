@@ -125,5 +125,26 @@ namespace RobotsVsDinosaurs
                 return targetLeastPowerRobot;
             }
         }
+
+        public Robot HumanChooseTargetRobot(Fleet fleet)
+        {
+            Console.WriteLine("Choose a robot to attack: ");
+            for (int i = 0; i < fleet.robots.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {fleet.robots[i].name}");
+            }
+            int selection;
+            bool valid = false;
+            do
+            {
+                valid = Int32.TryParse(Console.ReadLine(), out selection);
+                if (valid)
+                {
+                    valid = (selection > 0 && selection <= fleet.robots.Count);
+                    selection--;
+                }
+            } while (!valid);
+            return fleet.robots[selection];
+        }
     }
 }
