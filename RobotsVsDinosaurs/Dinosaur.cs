@@ -30,6 +30,7 @@ namespace RobotsVsDinosaurs
             attackTypeModifierHitChance = new int[] { 80, 50, 100 };
         }
 
+        #region Attack/ Attack Type Methods
         public int HumanAttack(Robot targetRobot, Herd herd, Random rng)
         {
             int hitAmount = 0;
@@ -56,13 +57,6 @@ namespace RobotsVsDinosaurs
             }
             return targetRobot.GetHit(hitAmount);
         }
-        public int GetHit(Weapon weapon)
-        {
-            int hitAmount = weapon.attackPower;
-            this.health -= hitAmount;
-            return hitAmount;
-        }
-
         public int ComputerChooseAttackType(Robot targetRobot, Herd herd, Random rng)
         {
             int hitAmount = 0;
@@ -96,6 +90,15 @@ namespace RobotsVsDinosaurs
             }
             return targetRobot.GetHit(hitAmount);
         }
+        #endregion
+        
+        public int GetHit(Weapon weapon)
+        {
+            int hitAmount = weapon.attackPower;
+            this.health -= hitAmount;
+            return hitAmount;
+        }
+
     }
 }
 

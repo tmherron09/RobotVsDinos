@@ -19,11 +19,14 @@ namespace RobotsVsDinosaurs
             availableWeapons = new List<Weapon>();
         }
 
+        #region Fleet Initialization Methods
+        // Calls the instantiation of a Weapon list and List of 3 new Robots.
         public void InitializeFleet(int health, int powerLevel, int maxPowerLevel)
         {
             InitializeWeaponList();
             InitializeNewRobotList(health, powerLevel, maxPowerLevel);
         }
+        // Instantiates three new Robots based on hard coded names into the Robot List.
         private void InitializeNewRobotList(int health, int powerLevel, int maxPowerLevel)
         {
             string[] names = { "FrazelBot", "Storm 9000", "LED-Tron" };
@@ -32,6 +35,7 @@ namespace RobotsVsDinosaurs
                 robots.Add(new Robot(names[i], availableWeapons, health, powerLevel, maxPowerLevel));
             }
         }
+        // Instantiates a WeaponList based on hard coded values.
         private void InitializeWeaponList()
         {
             List<string> weaponNames = new List<string> { "sword", "lazer sword", "blaster", "robot fists", "Rocket Launcher", "Wrecking Ball", "Flamethrower", "Magnified Loud Speaker" };
@@ -41,7 +45,11 @@ namespace RobotsVsDinosaurs
                 availableWeapons.Add(new Weapon(weaponNames[i], weaponAttackPowers[i]));
             }
         }
-        public Robot ChooseRobotToFight()
+        #endregion
+
+        #region Human Choice Methods
+        // Display and read Human Player input of which Robot to use to fight.
+        public Robot HumanChooseRobotToFight()
         {
             string msg;
             int selection;
@@ -68,6 +76,31 @@ namespace RobotsVsDinosaurs
             } while (!valid);
             return robots[selection];
         }
+        // Display and read Human Player input of which Dinosaur to attack.
+        public Dinosaur HumanChooseTargetDinosaur(Herd herd)
+        {
+            int selection;
+            bool valid = false;
+            do
+            {
+                Console.WriteLine("Choose a dinosaur to attack: ");
+                for (int i = 0; i < herd.dinosaurs.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}) {herd.dinosaurs[i].typename} | Health: {herd.dinosaurs[i].health}");
+                }
+                valid = Int32.TryParse(Console.ReadLine(), out selection);
+                if (valid)
+                {
+                    valid = (selection > 0 && selection <= herd.dinosaurs.Count);
+                    selection--;
+                }
+            } while (!valid);
+            return herd.dinosaurs[selection];
+        }
+        #endregion
+
+        #region Computer Choice Methods
+        // Logic for Computer to Choose a robot to fight with.
         public Robot ComputerChooseRobotToFight()
         {
             Robot strongest = robots[0];
@@ -103,35 +136,6 @@ namespace RobotsVsDinosaurs
                 return robotWithMostPower;
             }
         }
-
-        public bool CheckIfRobotsCanFight()
-        {
-            int hasPowerCount = 0;
-            foreach (Robot robot in robots)
-            {
-                if (robot.powerLevel > 0)
-                {
-                    hasPowerCount++;
-                }
-            }
-            return hasPowerCount > 0 ? true : false;
-        }
-
-        public bool CheckHasDied(Robot robot)
-        {
-            return robot.health <= 0;
-        }
-        public void RemoveRobot(Robot robot)
-        {
-            if (robots.Contains(robot))
-            {
-                robots.Remove(robot);
-            }
-            else
-            {
-                throw new IndexOutOfRangeException();
-            }
-        }
         public Dinosaur ComputeChooseTargetDinosaur(Herd herd, Random rng)
         {
             int leastHealth = 1000;
@@ -160,27 +164,22 @@ namespace RobotsVsDinosaurs
                 return targetLeastPowerDiinosaur;
             }
         }
-        public Dinosaur HumanChooseTargetDinosaur(Herd herd)
-        {
-            int selection;
-            bool valid = false;
-            do
-            {
-                Console.WriteLine("Choose a dinosaur to attack: ");
-                for (int i = 0; i < herd.dinosaurs.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}) {herd.dinosaurs[i].typename} | Health: {herd.dinosaurs[i].health}");
-                }
-                valid = Int32.TryParse(Console.ReadLine(), out selection);
-                if (valid)
-                {
-                    valid = (selection > 0 && selection <= herd.dinosaurs.Count);
-                    selection--;
-                }
-            } while (!valid);
-            return herd.dinosaurs[selection];
-        }
+        #endregion
 
+        #region Power Level Methods
+        // Called to check if any robot in Robots List has energy left.
+        public bool CheckIfRobotsCanFight()
+        {
+            int hasPowerCount = 0;
+            foreach (Robot robot in robots)
+            {
+                if (robot.powerLevel > 0)
+                {
+                    hasPowerCount++;
+                }
+            }
+            return hasPowerCount > 0 ? true : false;
+        }
         public void UpdatePowerLevels(Robot currentTurnRobot)
         {
             foreach (Robot robot in robots)
@@ -206,5 +205,27 @@ namespace RobotsVsDinosaurs
                 robot.powerLevel += 10;
             }
         }
+        #endregion
+
+        #region Uncategorized
+        // Returns true if a Robot has died- health <= 0
+        public bool CheckHasDied(Robot robot)
+        {
+            return robot.health <= 0;
+        }
+        // Called if a robot has died and removes them from Robot List.
+        public void RemoveRobot(Robot robot)
+        {
+            if (robots.Contains(robot))
+            {
+                robots.Remove(robot);
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
+        #endregion
+
     }
 }

@@ -18,7 +18,8 @@ namespace RobotsVsDinosaurs
             dinosaurTypes = new List<string> { "Troodon", "Quaesitosaurus", "T-Rex" };
             isHuman = false;
         }
-
+        
+        #region Initialization Methods
         public void InitializeHerd(int health, int powerLevel, int maxPower, int attackPower)
         {
             InitializeNewDinosaurList(health, powerLevel, maxPower, attackPower);
@@ -30,10 +31,13 @@ namespace RobotsVsDinosaurs
                 dinosaurs.Add(new Dinosaur(dinosaurTypes[i], health, powerLevel, maxPower, attackPower));
             }
         }
-        public Dinosaur ChooseDinosaurToFight()
+        #endregion
+
+        #region Human Choice methods
+        public Dinosaur HumanChooseDinosaurToFight()
         {
             string msg;
-            
+
             int selection;
             bool valid = false;
             do
@@ -58,6 +62,30 @@ namespace RobotsVsDinosaurs
             } while (!valid);
             return dinosaurs[selection];
         }
+        public Robot HumanChooseTargetRobot(Fleet fleet)
+        {
+
+            int selection;
+            bool valid = false;
+            do
+            {
+                Console.WriteLine("Choose a robot to attack: ");
+                for (int i = 0; i < fleet.robots.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}) {fleet.robots[i].name} | Health: {fleet.robots[i].health}");
+                }
+                valid = Int32.TryParse(Console.ReadLine(), out selection);
+                if (valid)
+                {
+                    valid = (selection > 0 && selection <= fleet.robots.Count);
+                    selection--;
+                }
+            } while (!valid);
+            return fleet.robots[selection];
+        }
+        #endregion
+
+        #region Computer Choice Methods
         public Dinosaur ComputerChooseDinosaurToFight()
         {
             Dinosaur dinoWithMostHealth = dinosaurs[0];
@@ -90,21 +118,6 @@ namespace RobotsVsDinosaurs
                 return dinoWithMostPower;
             }
         }
-        public bool CheckHasDied(Dinosaur dinosaur)
-        {
-            return dinosaur.health <= 0;
-        }
-        public void RemoveDinosaur(Dinosaur dinosaur)
-        {
-            if (dinosaurs.Contains(dinosaur))
-            {
-                dinosaurs.Remove(dinosaur);
-            }
-            else
-            {
-                throw new IndexOutOfRangeException();
-            }
-        }
         public Robot ComputerChooseTargetRobot(Fleet fleet, Random rng)
         {
             int leastHealth = 1000;
@@ -133,26 +146,20 @@ namespace RobotsVsDinosaurs
                 return targetLeastPowerRobot;
             }
         }
-        public Robot HumanChooseTargetRobot(Fleet fleet)
-        {
+        #endregion
 
-            int selection;
-            bool valid = false;
-            do
+        #region Power Level Methods
+        public bool CheckIfDinosaursCanFight()
+        {
+            int hasPowerCount = 0;
+            foreach (Dinosaur dino in dinosaurs)
             {
-                Console.WriteLine("Choose a robot to attack: ");
-                for (int i = 0; i < fleet.robots.Count; i++)
+                if (dino.powerLevel > 0)
                 {
-                    Console.WriteLine($"{i + 1}) {fleet.robots[i].name} | Health: {fleet.robots[i].health}");
+                    hasPowerCount++;
                 }
-                valid = Int32.TryParse(Console.ReadLine(), out selection);
-                if (valid)
-                {
-                    valid = (selection > 0 && selection <= fleet.robots.Count);
-                    selection--;
-                }
-            } while (!valid);
-            return fleet.robots[selection];
+            }
+            return hasPowerCount > 0 ? true : false;
         }
         public void UpdatePowerLevels(Dinosaur currentTurnDinosaur)
         {
@@ -171,7 +178,6 @@ namespace RobotsVsDinosaurs
                 }
             }
         }
-
         public void UpdatePowerLevels()
         {
             foreach (Dinosaur dino in dinosaurs)
@@ -179,18 +185,24 @@ namespace RobotsVsDinosaurs
                 dino.powerLevel += 10;
             }
         }
+        #endregion
 
-        public bool CheckIfDinosaursCanFight()
+        #region Uncategorized
+        public bool CheckHasDied(Dinosaur dinosaur)
         {
-            int hasPowerCount = 0;
-            foreach (Dinosaur dino in dinosaurs)
-            {
-                if (dino.powerLevel > 0)
-                {
-                    hasPowerCount++;
-                }
-            }
-            return hasPowerCount > 0 ? true : false;
+            return dinosaur.health <= 0;
         }
+        public void RemoveDinosaur(Dinosaur dinosaur)
+        {
+            if (dinosaurs.Contains(dinosaur))
+            {
+                dinosaurs.Remove(dinosaur);
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
+        #endregion
     }
 }

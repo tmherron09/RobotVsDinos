@@ -11,13 +11,10 @@ namespace RobotsVsDinosaurs
         public string name;
         public int attackPower;
         
-
         public Weapon(string name, int attackPower)
         {
             this.name = name;
             this.attackPower = attackPower;
         }
-
-        
     }
 }
