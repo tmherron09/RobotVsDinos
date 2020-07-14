@@ -34,7 +34,8 @@ namespace RobotsVsDinosaurs
             }
             else if (weapon == null)
             {
-                ComputerChooseWeapon();
+                // Should not be called: Assume if it has no weapon, all have no weapon. Initialize all.
+                fleet.ComputerChooseAllWeapons();
             }
         }
         private void ChooseWeapon()

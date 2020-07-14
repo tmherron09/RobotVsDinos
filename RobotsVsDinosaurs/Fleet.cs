@@ -25,6 +25,10 @@ namespace RobotsVsDinosaurs
         {
             InitializeWeaponList();
             InitializeNewRobotList(health, powerLevel, maxPowerLevel);
+            if (!isHuman)
+            {
+                ComputerChooseAllWeapons();
+            }
         }
         // Instantiates three new Robots based on hard coded names into the Robot List.
         private void InitializeNewRobotList(int health, int powerLevel, int maxPowerLevel)
@@ -43,6 +47,13 @@ namespace RobotsVsDinosaurs
             for (int i = 0; i < weaponNames.Count; i++)
             {
                 availableWeapons.Add(new Weapon(weaponNames[i], weaponAttackPowers[i]));
+            }
+        }
+        public void ComputerChooseAllWeapons()
+        {
+            foreach (Robot robot in robots)
+            {
+                robot.ComputerChooseWeapon();
             }
         }
         #endregion
@@ -101,19 +112,25 @@ namespace RobotsVsDinosaurs
 
         #region Computer Choice Methods
         // Logic for Computer to Choose a robot to fight with.
-        public Robot ComputerChooseRobotToFight()
+        public Robot ComputerChooseRobotToFight(Random rng)
         {
+            // If only one left skip logic check.
+            if (robots.Count == 1)
+            {
+                return robots[0];
+            }
             Robot strongest = robots[0];
             Robot robotWithMostPower = robots[0];
             int largestAttackPower = 0;
             int largestPowerLevel = 0;
+            // Determin robots with most
             foreach (Robot robot in robots)
             {
-                foreach (Weapon weapon in robot.weaponList)
+                if (robot.weapon != null)
                 {
-                    if (weapon.attackPower >= largestAttackPower)
+                    if (robot.weapon.attackPower >= largestAttackPower)
                     {
-                        largestAttackPower = weapon.attackPower;
+                        largestAttackPower = robot.weapon.attackPower;
                         strongest = robot;
                     }
                 }
@@ -123,19 +140,25 @@ namespace RobotsVsDinosaurs
                     robotWithMostPower = robot;
                 }
             }
-            if (robotWithMostPower == null)
+            // Branch logic with rng to create prevent patterns.
+            if (robotWithMostPower == strongest)
             {
                 return strongest;
             }
-            if (robotWithMostPower == strongest)
+            else if (rng.Next(0, 101) < 20)
             {
                 return robotWithMostPower;
+            }
+            else if (rng.Next(0, 101) < 65)
+            {
+                return strongest;
             }
             else
             {
-                return robotWithMostPower;
+                return robots[rng.Next(0, robots.Count)];
             }
         }
+        // Logic for Computer to choose target.
         public Dinosaur ComputeChooseTargetDinosaur(Herd herd, Random rng)
         {
             int leastHealth = 1000;
@@ -198,6 +221,7 @@ namespace RobotsVsDinosaurs
                 }
             }
         }
+        // Updates power levels if all units are at 0 power. Add 10 power.
         public void UpdatePowerLevels()
         {
             // Called if no units have energy.

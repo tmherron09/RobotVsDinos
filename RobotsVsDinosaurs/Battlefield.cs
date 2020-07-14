@@ -105,11 +105,9 @@ namespace RobotsVsDinosaurs
         // Calls methods to create Fleet and Herd
         public void InitializeBattleField()
         {
-
+            ChooseYourTeam();
             fleet.InitializeFleet(100, 20, 30);
             herd.InitializeHerd(125, 30, 40, 40);
-            ChooseYourTeam();
-
         }
         // Asks Player to choose a team. TODO: Add two player.
         private void ChooseYourTeam()
@@ -223,9 +221,7 @@ namespace RobotsVsDinosaurs
                 Robot currentTurnRobot;
                 Dinosaur targetDinosaur;
                 // Computer chooses Robot
-                currentTurnRobot = fleet.ComputerChooseRobotToFight();
-                // Computer chooses weapon for Robot if not already assigned.
-                currentTurnRobot.InitializeWeapon(fleet);
+                currentTurnRobot = fleet.ComputerChooseRobotToFight(rng);
                 // Computer Selects Target
                 targetDinosaur = fleet.ComputeChooseTargetDinosaur(herd, rng);
                 // Computer attacks and returns hit amount.

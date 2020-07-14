@@ -149,6 +149,7 @@ namespace RobotsVsDinosaurs
         #endregion
 
         #region Power Level Methods
+        // Called to check if any dino in Dinosaurs List has energy left.
         public bool CheckIfDinosaursCanFight()
         {
             int hasPowerCount = 0;
@@ -161,6 +162,7 @@ namespace RobotsVsDinosaurs
             }
             return hasPowerCount > 0 ? true : false;
         }
+        // Updates power levels. Current dino decreases power, resting regain energy up to max
         public void UpdatePowerLevels(Dinosaur currentTurnDinosaur)
         {
             foreach (Dinosaur dino in dinosaurs)
@@ -178,6 +180,7 @@ namespace RobotsVsDinosaurs
                 }
             }
         }
+        // Updates power levels if all units are at 0 power. Add 10 power.
         public void UpdatePowerLevels()
         {
             foreach (Dinosaur dino in dinosaurs)
