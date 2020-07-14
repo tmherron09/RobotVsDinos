@@ -24,15 +24,14 @@ namespace RobotsVsDinosaurs
             powerLevel = 20; // stamina
             attackPower = 30;
             attackTypes = new string[] { "Scratch", "Bite", "Tail Whip" };
-            attackTypesModifiers = new double[] { 1.25, 1.50, 1.00 };
+            attackTypesModifiers = new double[] { 1.25, 2.00, 1.00 };
             attackTypeModifierHitChance = new int[] { 80, 50, 100 };
         }
 
-        public int Attack(Robot targetRobot, Herd herd, Random rng)
+        public int HumanAttack(Robot targetRobot, Herd herd, Random rng)
         {
             int hitAmount = 0;
-            if (herd.isHuman)
-            {
+
                 Console.WriteLine("Choose an Attack: ");
                 for (int i = 0; i < attackTypes.Length; i++)
                 {
@@ -54,14 +53,47 @@ namespace RobotsVsDinosaurs
                     hitAmount = (int)(attackPower * attackTypesModifiers[selection]);
                 }
                 return targetRobot.GetHit(hitAmount);
-            }
-            return targetRobot.GetHit(hitAmount);
         }
         public int GetHit(Weapon weapon)
         {
             int hitAmount = weapon.attackPower;
             this.health -= hitAmount;
             return hitAmount;
+        }
+
+        public int ComputerChooseAttackType(Robot targetRobot, Herd herd, Random rng)
+        {
+            int hitAmount = 0;
+            int attackChoice = 0;
+            // Logic chain for Computer Choosing Attack target.
+            // 0 = Scratch, 1 = Bite 2 = Tail Whip
+            if(targetRobot.health < 50) // target health < 50, 50% chance to try and Bite, finishing off Robot
+            {
+                if(rng.Next() % 2 == 0)
+                {
+                    attackChoice = 1;
+                }
+            }
+            else if (targetRobot.powerLevel == 0) // Tail Whip 100 hit rate
+            {
+                attackChoice = 2;
+            }
+            else if(health > 60)
+            {
+                attackChoice = 0;
+            }
+            else
+            {
+                // Default is random choice. TODO set more rules.
+                attackChoice = rng.Next(0,3);
+            }
+            // Determin if hit is successfull. hit amount stays 0 if fails.
+            if (rng.Next(101) < attackTypeModifierHitChance[attackChoice])
+            {
+                hitAmount = (int)(attackPower * attackTypesModifiers[attackChoice]);
+            }
+            return targetRobot.GetHit(hitAmount);
+            }
         }
     }
 }

@@ -142,7 +142,8 @@ namespace RobotsVsDinosaurs
                 // Player ChoosesTargetDinosaur
                 targetDinosaur = fleet.HumanChooseTargetDinosaur(herd);
                 // Robot attacks and returns hit amount.
-                currentTurnRobot.Attack(targetDinosaur);
+                hitAmount = currentTurnRobot.Attack(targetDinosaur);
+                // TODO: RobotAttackedDinosaur()
             }
             else
             {
@@ -153,7 +154,8 @@ namespace RobotsVsDinosaurs
                 // Player chooses target Robot
                 targetRobot = herd.HumanChooseTargetRobot(fleet);
                 // Player choose attack type and gets hit amount.
-                hitAmount = currentTurnDinosaur.Attack(targetRobot, herd, rng);
+                hitAmount = currentTurnDinosaur.HumanAttack(targetRobot, herd, rng);
+                // DinosaurAttackedRobot()
             }
         }
         private void ComputerAttackAction()
@@ -170,7 +172,8 @@ namespace RobotsVsDinosaurs
                 // Computer Selects Target
                 targetDinosaur = fleet.ComputeChooseTargetDinosaur(herd, rng);
                 // Computer attacks and returns hit amount.
-                currentTurnRobot.Attack(targetDinosaur);
+                hitAmount = currentTurnRobot.Attack(targetDinosaur);
+                // TODO: RobotAttackedDinosaur()
             }
             else
             {
@@ -182,7 +185,8 @@ namespace RobotsVsDinosaurs
                 targetRobot = herd.ComputerChooseTargetRobot(fleet, rng);
                 // Computer chooses Attack Type
                 // ComputerChooseAttackType(targetRobot) and returns hit amount.
-                hitAmount = herd.ComputerChooseAttackType(targetRobot, herd, rng);
+                hitAmount = currentTurnDinosaur.ComputerChooseAttackType(targetRobot, herd, rng);
+                // DinosaurAttackedRobot()
             }
 
         }
@@ -238,7 +242,7 @@ namespace RobotsVsDinosaurs
                 }
 
             } while (!valid);
-            int hitAmount = dinosaur.Attack(fleet.robots[targetPosition], herd, rng);
+            int hitAmount = dinosaur.HumanAttack(fleet.robots[targetPosition], herd, rng);
             // DisplayAttackInformation()
             //PlaceHolder
             if (hitAmount > 0)

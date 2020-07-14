@@ -125,7 +125,6 @@ namespace RobotsVsDinosaurs
                 return targetLeastPowerRobot;
             }
         }
-
         public Robot HumanChooseTargetRobot(Fleet fleet)
         {
             Console.WriteLine("Choose a robot to attack: ");
@@ -146,5 +145,7 @@ namespace RobotsVsDinosaurs
             } while (!valid);
             return fleet.robots[selection];
         }
+
+
     }
 }
