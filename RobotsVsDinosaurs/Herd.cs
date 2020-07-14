@@ -20,20 +20,20 @@ namespace RobotsVsDinosaurs
             isHuman = false;
         }
 
-        public void InitializeHerd(Random rng)
+        public void InitializeHerd()
         {
-            InitializeNewDinosaurList(rng);
+            InitializeNewDinosaurList();
         }
-        private void InitializeNewDinosaurList(Random rng)
+        private void InitializeNewDinosaurList()
         {
             for (int i = 0; i < 3; i++)
             {
-                dinosaurs.Add(new Dinosaur(dinosaurTypes[i], rng));
+                dinosaurs.Add(new Dinosaur(dinosaurTypes[i]));
             }
         }
         public Dinosaur ChooseDinosaurToFight()
         {
-                Console.WriteLine("Please select which robot to use: ");
+                Console.WriteLine("Choose a dinosaur: ");
                 for (int i = 0; i < dinosaurs.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}) {dinosaurs[i].typename} Attack Power: {dinosaurs[i].attackPower}");

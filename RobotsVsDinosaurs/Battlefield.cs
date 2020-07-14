@@ -25,7 +25,7 @@ namespace RobotsVsDinosaurs
         public void InitializeBattleField()
         {
             fleet.InitializeFleet(rng);
-            herd.InitializeHerd(rng);
+            herd.InitializeHerd();
             ChooseYourTeam();
 
         }
@@ -203,8 +203,7 @@ namespace RobotsVsDinosaurs
         public void AttackAction(Dinosaur dinosaur, Fleet fleet)
 
         {
-            // Choose Ability
-            //Choose Target
+            Console.WriteLine("Select a robot to attack: ");
             for (int i = 1; i <= fleet.robots.Count; i++)
             {
                 Console.WriteLine($"{i}: {fleet.robots[i-1].name}");
@@ -222,15 +221,22 @@ namespace RobotsVsDinosaurs
                 }
 
             } while (!valid);
-            int hitAmount = dinosaur.Attack(fleet.robots[targetPosition]);
+            int hitAmount = dinosaur.Attack(fleet.robots[targetPosition], herd, rng);
             // DisplayAttackInformation()
             //PlaceHolder
-            Console.WriteLine($"{dinosaur.typename} hit {fleet.robots[targetPosition].name} for {hitAmount} damage!");
-            if (fleet.CheckHasDied(fleet.robots[targetPosition]))
+            if (hitAmount > 0)
             {
-                //Display Death Message
-                Console.WriteLine($"{fleet.robots[targetPosition].name} has been destroyed.");
-                fleet.RemoveRobot(fleet.robots[targetPosition]);
+                Console.WriteLine($"{dinosaur.typename} hit {fleet.robots[targetPosition].name} for {hitAmount} damage!");
+                if (fleet.CheckHasDied(fleet.robots[targetPosition]))
+                {
+                    //Display Death Message
+                    Console.WriteLine($"{fleet.robots[targetPosition].name} has been destroyed.");
+                    fleet.RemoveRobot(fleet.robots[targetPosition]);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{dinosaur.typename} has MISSED!");
             }
         }
         private void ComputerAttackAction(Dinosaur currentTurnDinosaur, Fleet fleet)
