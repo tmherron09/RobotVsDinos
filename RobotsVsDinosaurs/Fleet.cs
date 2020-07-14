@@ -51,7 +51,7 @@ namespace RobotsVsDinosaurs
                 Console.WriteLine("Please select which robot to use: ");
                 for (int i = 0; i < robots.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) {robots[i].name} Power Level: {robots[i].powerLevel}");
+                    Console.WriteLine($"{i + 1}) Name: {robots[i].name} | Power Level: {robots[i].powerLevel}");
                 }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
@@ -160,9 +160,6 @@ namespace RobotsVsDinosaurs
                 return targetLeastPowerDiinosaur;
             }
         }
-
-
-
         public Dinosaur HumanChooseTargetDinosaur(Herd herd)
         {
             int selection;
@@ -172,7 +169,7 @@ namespace RobotsVsDinosaurs
                 Console.WriteLine("Choose a dinosaur to attack: ");
                 for (int i = 0; i < herd.dinosaurs.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) {herd.dinosaurs[i].typename} Health: {herd.dinosaurs[i].health}");
+                    Console.WriteLine($"{i + 1}) {herd.dinosaurs[i].typename} | Health: {herd.dinosaurs[i].health}");
                 }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)

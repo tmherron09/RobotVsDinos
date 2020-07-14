@@ -33,15 +33,16 @@ namespace RobotsVsDinosaurs
         public Dinosaur ChooseDinosaurToFight()
         {
             string msg;
-            Console.WriteLine("Choose a dinosaur: ");
-            for (int i = 0; i < dinosaurs.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}) {dinosaurs[i].typename} Power Level: {dinosaurs[i].powerLevel}");
-            }
+            
             int selection;
             bool valid = false;
             do
             {
+                Console.WriteLine("Choose a dinosaur: ");
+                for (int i = 0; i < dinosaurs.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}) {dinosaurs[i].typename} | Power Level: {dinosaurs[i].powerLevel}");
+                }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
                 {
@@ -142,7 +143,7 @@ namespace RobotsVsDinosaurs
                 Console.WriteLine("Choose a robot to attack: ");
                 for (int i = 0; i < fleet.robots.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) {fleet.robots[i].name}");
+                    Console.WriteLine($"{i + 1}) {fleet.robots[i].name} | Health: {fleet.robots[i].health}");
                 }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)

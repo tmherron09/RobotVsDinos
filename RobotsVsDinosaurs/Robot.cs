@@ -52,7 +52,7 @@ namespace RobotsVsDinosaurs
         {
             for(int i = 0; i < weaponList.Count; i++)
             {
-                Console.WriteLine($"{i + 1}) {weaponList[i].name} Attack Power: {weaponList[i].attackPower}");
+                Console.WriteLine($"{i + 1}) Name: {weaponList[i].name} | Attack Power: {weaponList[i].attackPower}");
             }
             int weaponChoice;
             bool valid = false;
