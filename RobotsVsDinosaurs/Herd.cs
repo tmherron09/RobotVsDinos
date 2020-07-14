@@ -99,5 +99,33 @@ namespace RobotsVsDinosaurs
             }
         }
 
+        public Robot ComputerChooseTargetRobot(Fleet fleet, Random rng)
+        {
+            int leastHealth = 1000;
+            int leastPower = 1000;
+            // Set default to first in Dinosaur list to prevent uninitialized error
+            Robot targetLeastHealthRobot = fleet.robots[0];
+            Robot targetLeastPowerRobot = fleet.robots[0];
+            foreach (Robot robot in fleet.robots)
+            {
+                if (robot.health < leastHealth)
+                {
+                    targetLeastHealthRobot = robot;
+                }
+                if (robot.powerLevel < leastPower)
+                {
+                    targetLeastPowerRobot = robot;
+                }
+            }
+            // Computer will randomly target either the Dino with least health or Power, to help balance.
+            if (rng.Next() % 2 == 0)
+            {
+                return targetLeastHealthRobot;
+            }
+            else
+            {
+                return targetLeastPowerRobot;
+            }
+        }
     }
 }

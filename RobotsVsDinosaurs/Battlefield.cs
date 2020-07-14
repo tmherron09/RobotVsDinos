@@ -179,7 +179,7 @@ namespace RobotsVsDinosaurs
                 // Computer chooses dinosaur
                 currentTurnDinosaur = herd.ComputerChooseDinosaurToFight();
                 // Computer chooses target
-                targetRobot = herd.ComputerChooseTargetRobot(fleet);
+                targetRobot = herd.ComputerChooseTargetRobot(fleet, rng);
                 // Computer chooses Attack Type
                 // ComputerChooseAttackType(targetRobot) and returns hit amount.
                 hitAmount = herd.ComputerChooseAttackType(targetRobot, herd, rng);
