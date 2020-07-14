@@ -20,7 +20,7 @@ namespace RobotsVsDinosaurs
             herd = new Herd();
             rng = new Random();
         }
-        
+
         #region Main Gam Loop
         // The main Game Loop
         public void RunBattle()
@@ -33,14 +33,14 @@ namespace RobotsVsDinosaurs
                 DisplayTurnInfo();
                 // Start turn
                 AttackPhase();
-                Console.ReadLine();
+                Console.ReadKey();
                 // Change whose turn it is.
                 isFleetTurn = !isFleetTurn;
                 // TODO Add WinningConditionMet method (herd.dinosaurs.Any() && fleet.robots.Any())
                 hasWinner = WinningConditionMet();
             } while (!hasWinner);
             // Display Victory Information
-            Console.ReadLine();
+            DisplayWinner();
         }
         // Check if either team List is empty/All units destroyed.
         private bool WinningConditionMet()
@@ -73,7 +73,7 @@ namespace RobotsVsDinosaurs
             string robotInfo = "Robot Stats\n";
             string dinoInfo = "Dinosaur Stats\n";
             Console.Clear();
-            Console.SetCursorPosition(0, 20);
+            Console.SetCursorPosition(0, 22);
             foreach (Robot robot in fleet.robots)
             {
                 robotInfo = string.Concat(robotInfo, $"{robot.name}\nHealth: {robot.health,3} Power Level: {robot.powerLevel}\n");
@@ -85,6 +85,20 @@ namespace RobotsVsDinosaurs
             Console.WriteLine(robotInfo + "\n----------\n\n" + dinoInfo);
             Console.SetCursorPosition(0, 0);
         }
+        private void DisplayWinner()
+        {
+            string msg = "";
+            if(fleet.robots.Any())
+            {
+                Console.WriteLine("Robots Win!");
+            }
+            else
+            {
+                Console.WriteLine("Dinosaurs Win!");
+            }
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
         #endregion
 
         #region Initialize Game Methods
@@ -93,7 +107,7 @@ namespace RobotsVsDinosaurs
         {
 
             fleet.InitializeFleet(100, 20, 30);
-            herd.InitializeHerd(150, 30, 60, 40);
+            herd.InitializeHerd(125, 30, 40, 40);
             ChooseYourTeam();
 
         }
@@ -160,10 +174,13 @@ namespace RobotsVsDinosaurs
                 Dinosaur targetDinosaur;
                 // PLayer Chooses Robot
                 currentTurnRobot = fleet.HumanChooseRobotToFight();
+                UpdateStatsDisplay();
                 // Player chooses weapon for Robot if not already assigned
                 currentTurnRobot.InitializeWeapon(fleet);
+                UpdateStatsDisplay();
                 // Player ChoosesTargetDinosaur
                 targetDinosaur = fleet.HumanChooseTargetDinosaur(herd);
+                UpdateStatsDisplay();
                 // Robot attacks and returns hit amount.
                 hitAmount = currentTurnRobot.Attack(targetDinosaur);
                 ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
@@ -181,8 +198,10 @@ namespace RobotsVsDinosaurs
                 Robot targetRobot;
                 // Player chooses dinosaur
                 currentTurnDinosaur = herd.HumanChooseDinosaurToFight();
+                UpdateStatsDisplay();
                 // Player chooses target Robot
                 targetRobot = herd.HumanChooseTargetRobot(fleet);
+                UpdateStatsDisplay();
                 // Player choose attack type and gets hit amount.
                 hitAmount = currentTurnDinosaur.HumanAttack(targetRobot, herd, rng);
                 ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);

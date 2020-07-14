@@ -39,14 +39,14 @@ namespace RobotsVsDinosaurs
         }
         private void ChooseWeapon()
         {
-            for (int i = 0; i < weaponList.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}) Name: {weaponList[i].name} | Attack Power: {weaponList[i].attackPower}");
-            }
             int weaponChoice;
             bool valid = false;
             do
             {
+                for (int i = 0; i < weaponList.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}) Name: {weaponList[i].name} | Attack Power: {weaponList[i].attackPower}");
+                }
                 valid = Int32.TryParse(Console.ReadLine(), out weaponChoice);
                 if (valid)
                 {

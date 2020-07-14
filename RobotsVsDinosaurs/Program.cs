@@ -12,13 +12,12 @@ namespace RobotsVsDinosaurs
         static void Main(string[] args)
         {
             //Set Window Properties
-            Console.WindowHeight = 40;
+            Console.WindowHeight = 44;
             Console.WindowWidth = 120;
 
-            Battlefield debugBattlefield = new Battlefield();
-
-            debugBattlefield.RunBattle();
-
+            // Game wrapper for replaying the game.
+            GameSession game = new GameSession();
+            game.PlayGame();
 
             Console.WriteLine();
             Console.ReadLine();

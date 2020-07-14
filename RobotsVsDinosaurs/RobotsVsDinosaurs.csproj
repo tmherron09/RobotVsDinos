@@ -46,6 +46,7 @@
     <Compile Include="Battlefield.cs" />
     <Compile Include="Dinosaur.cs" />
     <Compile Include="Fleet.cs" />
+    <Compile Include="GameSession.cs" />
     <Compile Include="Herd.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
