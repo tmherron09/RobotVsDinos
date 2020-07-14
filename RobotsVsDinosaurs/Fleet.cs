@@ -44,15 +44,15 @@ namespace RobotsVsDinosaurs
         public Robot ChooseRobotToFight()
         {
             string msg;
-            Console.WriteLine("Please select which robot to use: ");
-            for (int i = 0; i < robots.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}) {robots[i].name} Power Level: {robots[i].powerLevel}");
-            }
             int selection;
             bool valid = false;
             do
             {
+                Console.WriteLine("Please select which robot to use: ");
+                for (int i = 0; i < robots.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}) {robots[i].name} Power Level: {robots[i].powerLevel}");
+                }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
                 {
@@ -165,15 +165,15 @@ namespace RobotsVsDinosaurs
 
         public Dinosaur HumanChooseTargetDinosaur(Herd herd)
         {
-            Console.WriteLine("Choose a dinosaur to attack: ");
-            for (int i = 0; i < herd.dinosaurs.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}) {herd.dinosaurs[i].typename} Health: {herd.dinosaurs[i].health}");
-            }
             int selection;
             bool valid = false;
             do
             {
+                Console.WriteLine("Choose a dinosaur to attack: ");
+                for (int i = 0; i < herd.dinosaurs.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}) {herd.dinosaurs[i].typename} Health: {herd.dinosaurs[i].health}");
+                }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
                 {

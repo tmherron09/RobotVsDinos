@@ -59,16 +59,16 @@ namespace RobotsVsDinosaurs
         }
         public Dinosaur ComputerChooseDinosaurToFight()
         {
-            Dinosaur strongest = dinosaurs[0];
+            Dinosaur dinoWithMostHealth = dinosaurs[0];
             Dinosaur dinoWithMostPower = dinosaurs[0];
-            int largestAttackPower = 0;
+            int mostHealth = 0;
             int largestPowerLevel = 0;
             foreach (Dinosaur dino in dinosaurs)
             {
-                if (dino.attackPower >= largestAttackPower)
+                if (dino.health >= mostHealth)
                 {
-                    largestAttackPower = dino.attackPower;
-                    strongest = dino;
+                    mostHealth = dino.health;
+                    dinoWithMostHealth = dino;
                 }
                 if (dino.powerLevel >= largestPowerLevel)
                 {
@@ -78,9 +78,9 @@ namespace RobotsVsDinosaurs
             }
             if (dinoWithMostPower == null)
             {
-                return strongest;
+                return dinoWithMostHealth;
             }
-            if (dinoWithMostPower == strongest)
+            if (dinoWithMostPower == dinoWithMostHealth)
             {
                 return dinoWithMostPower;
             }
@@ -134,15 +134,16 @@ namespace RobotsVsDinosaurs
         }
         public Robot HumanChooseTargetRobot(Fleet fleet)
         {
-            Console.WriteLine("Choose a robot to attack: ");
-            for (int i = 0; i < fleet.robots.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}) {fleet.robots[i].name}");
-            }
+            
             int selection;
             bool valid = false;
             do
             {
+                Console.WriteLine("Choose a robot to attack: ");
+                for (int i = 0; i < fleet.robots.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}) {fleet.robots[i].name}");
+                }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
                 {
