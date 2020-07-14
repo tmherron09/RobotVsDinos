@@ -111,7 +111,33 @@ namespace RobotsVsDinosaurs
                 throw new IndexOutOfRangeException();
             }
         }
-
-
+        public Dinosaur ComputeChooseTargetDinosaur(Herd herd, Random rng)
+        {
+            int leastHealth = 1000;
+            int leastPower = 1000;
+            // Set default to first in Dinosaur list to prevent uninitialized error
+            Dinosaur targetLeastHealthDinosaur = herd.dinosaurs[0];
+            Dinosaur targetLeastPowerDiinosaur = herd.dinosaurs[0];
+            foreach(Dinosaur dino in herd.dinosaurs)
+            {
+                if(dino.health < leastHealth)
+                {
+                    targetLeastHealthDinosaur = dino;
+                }
+                if(dino.powerLevel < leastPower)
+                {
+                    targetLeastPowerDiinosaur = dino;
+                }
+            }
+            // Computer will randomly target either the Dino with least health or Power, to help balance.
+            if(rng.Next() % 2 == 0)
+            {
+                return targetLeastHealthDinosaur;
+            }
+            else
+            {
+                return targetLeastPowerDiinosaur;
+            }
+        }
     }
 }

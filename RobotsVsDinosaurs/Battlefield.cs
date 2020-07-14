@@ -30,7 +30,6 @@ namespace RobotsVsDinosaurs
             ChooseYourTeam();
 
         }
-
         private void ChooseYourTeam()
         {
             bool valid = false;
@@ -62,7 +61,6 @@ namespace RobotsVsDinosaurs
             } while (!valid);
 
         }
-
         public void RunBattle()
         {
             hasWinner = false;
@@ -170,7 +168,7 @@ namespace RobotsVsDinosaurs
                 // Computer chooses weapon for Robot if not already assigned.
                 currentTurnRobot.InitializeWeapon(fleet);
                 // Computer Selects Target
-                targetDinosaur = fleet.ComputeChooseTargetDinosaur(herd);
+                targetDinosaur = fleet.ComputeChooseTargetDinosaur(herd, rng);
                 // Computer attacks and returns hit amount.
                 currentTurnRobot.Attack(targetDinosaur);
             }
@@ -184,7 +182,7 @@ namespace RobotsVsDinosaurs
                 targetRobot = herd.ComputerChooseTargetRobot(fleet);
                 // Computer chooses Attack Type
                 // ComputerChooseAttackType(targetRobot) and returns hit amount.
-                hitAmount = ComputerChooseAttackType(targetRobot, herd, rng);
+                hitAmount = herd.ComputerChooseAttackType(targetRobot, herd, rng);
             }
 
         }
