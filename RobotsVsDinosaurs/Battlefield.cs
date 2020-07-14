@@ -203,7 +203,7 @@ namespace RobotsVsDinosaurs
                 targetRobot = herd.HumanChooseTargetRobot(fleet);
                 UpdateStatsDisplay();
                 // Player choose attack type and gets hit amount.
-                hitAmount = currentTurnDinosaur.HumanAttack(targetRobot, herd, rng);
+                hitAmount = currentTurnDinosaur.HumanAttack(targetRobot, rng);
                 ReportDinosaurAttackedRobot(currentTurnDinosaur, targetRobot, hitAmount);
                 herd.UpdatePowerLevels(currentTurnDinosaur);
             }

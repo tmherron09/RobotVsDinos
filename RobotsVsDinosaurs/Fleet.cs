@@ -180,6 +180,7 @@ namespace RobotsVsDinosaurs
             }
             return hasPowerCount > 0 ? true : false;
         }
+        // Updates power levels. Current robot decreases power, resting regain energy up to max
         public void UpdatePowerLevels(Robot currentTurnRobot)
         {
             foreach (Robot robot in robots)
@@ -190,7 +191,7 @@ namespace RobotsVsDinosaurs
                 }
                 else
                 {
-                    if (robot.powerLevel <= robot.maxPowerLevel)
+                    if (robot.powerLevel < robot.maxPowerLevel)
                     {
                         robot.powerLevel += 10;
                     }

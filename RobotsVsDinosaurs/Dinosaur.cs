@@ -31,19 +31,21 @@ namespace RobotsVsDinosaurs
         }
 
         #region Attack/ Attack Type Methods
-        public int HumanAttack(Robot targetRobot, Herd herd, Random rng)
+        // Human attack consisting of choosing attack type. Calls GetHit method on target robot.
+        public int HumanAttack(Robot targetRobot, Random rng)
         {
+            // Set to 0 in case of miss.
             int hitAmount = 0;
-
-            Console.WriteLine("Choose an Attack: ");
-            for (int i = 0; i < attackTypes.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}) {attackTypes[i]} Hit Chance: {attackTypeModifierHitChance[i]}%  Bonus: x{attackTypesModifiers[i]} damage");
-            }
             int selection;
             bool valid = false;
+            // Verify input is valid before continuing.
             do
             {
+                Console.WriteLine("Choose an Attack: ");
+                for (int i = 0; i < attackTypes.Length; i++)
+                {
+                    Console.WriteLine($"{i + 1}) {attackTypes[i]} Hit Chance: {attackTypeModifierHitChance[i]}%  Bonus: x{attackTypesModifiers[i]} damage");
+                }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
                 {
@@ -51,12 +53,15 @@ namespace RobotsVsDinosaurs
                     selection--;
                 }
             } while (!valid);
+            // Calculate if the attack hits based on attack type hit chace.
             if (rng.Next(101) < attackTypeModifierHitChance[selection])
             {
+                // Calculate damage based on attack type modifier bonus.
                 hitAmount = (int)(attackPower * attackTypesModifiers[selection]);
             }
             return targetRobot.GetHit(hitAmount);
         }
+        // Computer log for deciding on attack type to use, then calculate damage.
         public int ComputerChooseAttackType(Robot targetRobot, Herd herd, Random rng)
         {
             int hitAmount = 0;
@@ -91,7 +96,7 @@ namespace RobotsVsDinosaurs
             return targetRobot.GetHit(hitAmount);
         }
         #endregion
-        
+        // Takes a robot's weapon as input to calculate damage. Returns value back to caller.
         public int GetHit(Weapon weapon)
         {
             int hitAmount = weapon.attackPower;

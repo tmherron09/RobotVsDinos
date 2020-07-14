@@ -171,7 +171,7 @@ namespace RobotsVsDinosaurs
                 }
                 else
                 {
-                    if (dino.powerLevel <= dino.maxPowerLevel)
+                    if (dino.powerLevel < dino.maxPowerLevel)
                     {
                         dino.powerLevel += 10;
                     }
