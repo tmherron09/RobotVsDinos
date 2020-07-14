@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,13 +16,13 @@ namespace RobotsVsDinosaurs
         public Weapon weapon;
         public List<Weapon> weaponList;
 
-        public Robot(string name, List<Weapon> weaponList)
+        public Robot(string name, List<Weapon> weaponList, int health, int powerLevel, int maxPowerLevel)
         {
             this.name = name;
             this.weaponList = weaponList;
-            health = 100;
-            powerLevel = 20;
-            maxPowerLevel = 20;
+            this.health = health;
+            this.powerLevel = powerLevel;
+            this.maxPowerLevel = maxPowerLevel;
     }
 
         public void InitializeWeapon(Fleet fleet)

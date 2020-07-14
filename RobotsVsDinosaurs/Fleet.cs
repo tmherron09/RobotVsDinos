@@ -19,20 +19,20 @@ namespace RobotsVsDinosaurs
             availableWeapons = new List<Weapon>();
         }
 
-        public void InitializeFleet(Random rng)
+        public void InitializeFleet(int health, int powerLevel, int maxPowerLevel)
         {
-            InitializeWeaponList(rng);
-            InitializeNewRobotList();
+            InitializeWeaponList();
+            InitializeNewRobotList(health, powerLevel, maxPowerLevel);
         }
-        private void InitializeNewRobotList()
+        private void InitializeNewRobotList(int health, int powerLevel, int maxPowerLevel)
         {
             string[] names = { "FrazelBot", "Storm 9000", "LED-Tron" };
             for (int i = 0; i < 3; i++)
             {
-                robots.Add(new Robot(names[i], availableWeapons));
+                robots.Add(new Robot(names[i], availableWeapons, health, powerLevel, maxPowerLevel));
             }
         }
-        private void InitializeWeaponList(Random rng)
+        private void InitializeWeaponList()
         {
             List<string> weaponNames = new List<string> { "sword", "lazer sword", "blaster", "robot fists", "Rocket Launcher", "Wrecking Ball", "Flamethrower", "Magnified Loud Speaker" };
             List<int> weaponAttackPowers = new List<int> { 30, 50, 20, 30, 20, 10, 30, 40 };

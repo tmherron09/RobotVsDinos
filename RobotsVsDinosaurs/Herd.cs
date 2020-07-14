@@ -19,15 +19,15 @@ namespace RobotsVsDinosaurs
             isHuman = false;
         }
 
-        public void InitializeHerd()
+        public void InitializeHerd(int health, int powerLevel, int maxPower, int attackPower)
         {
-            InitializeNewDinosaurList();
+            InitializeNewDinosaurList(health, powerLevel, maxPower, attackPower);
         }
-        private void InitializeNewDinosaurList()
+        private void InitializeNewDinosaurList(int health, int powerLevel, int maxPower, int attackPower)
         {
             for (int i = 0; i < 3; i++)
             {
-                dinosaurs.Add(new Dinosaur(dinosaurTypes[i]));
+                dinosaurs.Add(new Dinosaur(dinosaurTypes[i], health, powerLevel, maxPower, attackPower));
             }
         }
         public Dinosaur ChooseDinosaurToFight()
@@ -134,7 +134,7 @@ namespace RobotsVsDinosaurs
         }
         public Robot HumanChooseTargetRobot(Fleet fleet)
         {
-            
+
             int selection;
             bool valid = false;
             do
@@ -179,17 +179,17 @@ namespace RobotsVsDinosaurs
             }
         }
 
-            public bool CheckIfDinosaursCanFight()
+        public bool CheckIfDinosaursCanFight()
+        {
+            int hasPowerCount = 0;
+            foreach (Dinosaur dino in dinosaurs)
             {
-                int hasPowerCount = 0;
-                foreach (Dinosaur dino in dinosaurs)
+                if (dino.powerLevel > 0)
                 {
-                    if (dino.powerLevel > 0)
-                    {
-                        hasPowerCount++;
-                    }
+                    hasPowerCount++;
                 }
-                return hasPowerCount > 0 ? true : false;
             }
+            return hasPowerCount > 0 ? true : false;
         }
     }
+}

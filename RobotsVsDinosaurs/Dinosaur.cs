@@ -18,13 +18,13 @@ namespace RobotsVsDinosaurs
         public double[] attackTypesModifiers;
         public int[] attackTypeModifierHitChance;
 
-        public Dinosaur(string typeName)
+        public Dinosaur(string typeName, int health, int powerLevel, int maxPower, int attackPower)
         {
             this.typename = typeName;
-            health = 100;
-            powerLevel = 30; // stamina
-            maxPowerLevel = 60;
-            attackPower = 30;
+            this.health = health;
+            this.powerLevel = powerLevel; // stamina
+            this.maxPowerLevel = maxPower;
+            this.attackPower = attackPower;
             attackTypes = new string[] { "Scratch", "Bite", "Tail Whip" };
             attackTypesModifiers = new double[] { 1.25, 2.00, 1.00 };
             attackTypeModifierHitChance = new int[] { 80, 50, 100 };

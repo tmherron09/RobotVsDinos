@@ -43,8 +43,9 @@ namespace RobotsVsDinosaurs
         }
         public void InitializeBattleField()
         {
-            fleet.InitializeFleet(rng);
-            herd.InitializeHerd();
+
+            fleet.InitializeFleet(100, 20, 30);
+            herd.InitializeHerd(150, 30, 60, 40);
             ChooseYourTeam();
 
         }
@@ -81,7 +82,7 @@ namespace RobotsVsDinosaurs
         }
         private bool WinningConditionMet()
         {
-            if(!fleet.robots.Any() || !herd.dinosaurs.Any())
+            if (!fleet.robots.Any() || !herd.dinosaurs.Any())
             {
                 return true;
             }
@@ -90,14 +91,14 @@ namespace RobotsVsDinosaurs
         public void DebugLogBattleField()
         {
             Console.WriteLine("Testing Fleet initialization.");
-            if(fleet.robots.Count != 0)
+            if (fleet.robots.Count != 0)
             {
                 Console.WriteLine($"Fleet count is {fleet.robots.Count}");
-                foreach(Robot robot in fleet.robots)
+                foreach (Robot robot in fleet.robots)
                 {
                     Console.WriteLine($"Robot name: {robot.name} Health: {robot.health} Power Level:{robot.powerLevel}\n Weapon Type: {robot.weapon.name} Weapon Attack Power: {robot.weapon.attackPower}");
                 }
-                foreach(Weapon weapon in fleet.availableWeapons)
+                foreach (Weapon weapon in fleet.availableWeapons)
                 {
                     Console.WriteLine($"Weapon Name: {weapon.name} Weapon Attack Power: {weapon.attackPower}");
                 }
@@ -109,14 +110,14 @@ namespace RobotsVsDinosaurs
             if (herd.dinosaurs.Count != 0)
             {
                 Console.WriteLine($"Herd count is {herd.dinosaurs.Count}");
-                foreach(Dinosaur dino in herd.dinosaurs)
+                foreach (Dinosaur dino in herd.dinosaurs)
                 {
                     Console.WriteLine($"Dino Type: {dino.typename} Dino Health: {dino.health} Dino Power Level: {dino.health} Dino Attack Power: {dino.attackPower}");
                 }
             }
             else
             {
-                
+
                 Console.WriteLine("Herd not initialized correctly.");
             }
             Console.WriteLine("End of Debug.");
@@ -138,7 +139,7 @@ namespace RobotsVsDinosaurs
             int hitAmount;
             if (isFleetTurn)
             {
-                if(!fleet.CheckIfRobotsCanFight())
+                if (!fleet.CheckIfRobotsCanFight())
                 {
                     Console.WriteLine("No Robots have enough energy to fight.");
                     fleet.UpdatePowerLevels();
@@ -159,7 +160,7 @@ namespace RobotsVsDinosaurs
             }
             else
             {
-                if(!herd.CheckIfDinosaursCanFight())
+                if (!herd.CheckIfDinosaursCanFight())
                 {
                     Console.WriteLine("No Dinosaur has enough energy to fight.");
                     herd.UpdatePowerLevels();
@@ -228,11 +229,11 @@ namespace RobotsVsDinosaurs
         {
             string msg;
             bool isDead;
-            if(hitAmount > 0)
+            if (hitAmount > 0)
             {
                 msg = $"{currentTurnRobot.name} hit {targetDinosaur.typename} with {currentTurnRobot.weapon.name} for {hitAmount} damage!";
                 isDead = herd.CheckHasDied(targetDinosaur);
-                if(isDead)
+                if (isDead)
                 {
                     msg = string.Concat(msg + $"\t{targetDinosaur.typename} has been destroyed.");
                     herd.RemoveDinosaur(targetDinosaur);
@@ -267,8 +268,8 @@ namespace RobotsVsDinosaurs
 
 
 
-            // Depreciated Attack action: TODO Refactor in Human/ComputerAttackAction and HitCalculation methods.
-            public void AttackAction(Robot robot, Herd herd)
+        // Depreciated Attack action: TODO Refactor in Human/ComputerAttackAction and HitCalculation methods.
+        public void AttackAction(Robot robot, Herd herd)
         {
             //Choose Target
             for (int i = 1; i <= herd.dinosaurs.Count; i++)
@@ -304,7 +305,7 @@ namespace RobotsVsDinosaurs
             Console.WriteLine("Select a robot to attack: ");
             for (int i = 1; i <= fleet.robots.Count; i++)
             {
-                Console.WriteLine($"{i}: {fleet.robots[i-1].name}");
+                Console.WriteLine($"{i}: {fleet.robots[i - 1].name}");
             }
 
             int targetPosition;
