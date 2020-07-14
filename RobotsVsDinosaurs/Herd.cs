@@ -80,7 +80,7 @@ namespace RobotsVsDinosaurs
             }
             else
             {
-                return strongest;
+                return dinoWithMostPower;
             }
         }
         public bool CheckHasDied(Dinosaur dinosaur)

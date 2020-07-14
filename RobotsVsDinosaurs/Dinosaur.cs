@@ -14,7 +14,7 @@ namespace RobotsVsDinosaurs
         public int powerLevel;
         public int attackPower;
         Random rng;
-        //string attackName; Add Later
+        public string[] attackTypes;
 
         public Dinosaur(string typeName, Random rng)
         {
@@ -23,12 +23,11 @@ namespace RobotsVsDinosaurs
             powerLevel = 30; // stamina
             this.rng = rng;
             attackPower = InitializeAttackPower();
+            attackTypes = new string[] { "Scratch", "Bite", "Tail Whip" };
         }
 
         private int InitializeAttackPower()
         {
-
-            
             return rng.Next(1, 6) * 10; // returns an attack power between 10-50 at steps of 10
         }
         public int Attack(Robot targetRobot)

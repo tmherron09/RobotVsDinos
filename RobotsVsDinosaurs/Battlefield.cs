@@ -143,6 +143,7 @@ namespace RobotsVsDinosaurs
             if (fleet.isHuman)
             {
                 currentTurnRobot = fleet.ChooseRobotToFight();
+                currentTurnRobot.InitializeWeapon(fleet);
                 AttackAction(currentTurnRobot, herd);
             }
             else
@@ -154,8 +155,6 @@ namespace RobotsVsDinosaurs
 
         public void AttackAction(Robot robot, Herd herd)
         {
-            // Choose Weapon
-            robot.ChooseWeapon();
             //Choose Target
             for (int i = 1; i <= herd.dinosaurs.Count; i++)
             {
@@ -185,7 +184,7 @@ namespace RobotsVsDinosaurs
         }
         private void ComputerAttackAction(Robot currentTurnRobot, Herd herd)
         {
-            throw new NotImplementedException();
+            
         }
         public void HerdAttackPhase()
         {
@@ -236,7 +235,8 @@ namespace RobotsVsDinosaurs
         }
         private void ComputerAttackAction(Dinosaur currentTurnDinosaur, Fleet fleet)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Computer attacks with{currentTurnDinosaur.typename}. It misses.");
+            //throw new NotImplementedException();
         }
     }
 }

@@ -46,7 +46,7 @@ namespace RobotsVsDinosaurs
                 Console.WriteLine("Please select which robot to use: ");
                 for(int i = 0; i < robots.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) {robots[i].name} Weapon: {robots[i].weapon.name} Attack Power: {robots[i].weapon.attackPower}");
+                    Console.WriteLine($"{i + 1}) {robots[i].name}");
                 }
                 int selection;
                 bool valid = false;
@@ -93,7 +93,7 @@ namespace RobotsVsDinosaurs
             }
             else
             {
-                return strongest;
+                return robotWithMostPower;
             }
         }
         public bool CheckHasDied(Robot robot)

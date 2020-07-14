@@ -18,14 +18,20 @@ namespace RobotsVsDinosaurs
         {
             this.name = name;
             this.weaponList = weaponList;
-            this.weapon = InitializeWeapon(this.weaponList);
             health = 100;
             powerLevel = 30;
         }
 
-        private Weapon InitializeWeapon(List<Weapon> weaponList)
+        public void InitializeWeapon(Fleet fleet)
         {
-            return weaponList[0];
+            if(weapon == null && fleet.isHuman)
+            {
+                ChooseWeapon();
+            }
+            else if(weapon == null)
+            {
+                ComputerChooseWeapon();
+            }
         }
 
         public int Attack(Dinosaur targetDinosaur)
@@ -39,7 +45,7 @@ namespace RobotsVsDinosaurs
             health -= hitAmount;
             return hitAmount;
         }
-        public void ChooseWeapon()
+        private void ChooseWeapon()
         {
             for(int i = 0; i < weaponList.Count; i++)
             {
@@ -57,7 +63,22 @@ namespace RobotsVsDinosaurs
                 }
             } while (!valid);
             this.weapon = weaponList[weaponChoice];
-
+            weaponList.Remove(this.weapon);
+        }
+        public void ComputerChooseWeapon()
+        {
+            int mostAttackPower = 0;
+            Weapon weaponChoice = weapon;
+            foreach(Weapon weapon in weaponList)
+            {
+                if(weapon.attackPower > mostAttackPower)
+                {
+                    weaponChoice = weapon;
+                    mostAttackPower = weapon.attackPower;
+                }
+            }
+            this.weapon = weaponChoice;
+            weaponList.Remove(this.weapon);
         }
 
     }
