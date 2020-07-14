@@ -33,11 +33,11 @@ namespace RobotsVsDinosaurs
         }
         private void InitializeWeaponList(Random rng)
         {
-            List<string> weaponNames = new List<string> { "sword", "lazer sword", "blaster", "robot fists" };
+            List<string> weaponNames = new List<string> { "sword", "lazer sword", "blaster", "robot fists", "Rocket Launcher", "Wrecking Ball", "Flamethrower", "Magnified Loud Speaker" };
+            List<int> weaponAttackPowers = new List<int> { 30, 50, 20, 30, 20, 10, 30, 40 };
             for (int i = 0; i < weaponNames.Count; i++)
             {
-                string weaponName = weaponNames[i];
-                availableWeapons.Add(new Weapon(weaponName, rng));
+                availableWeapons.Add(new Weapon(weaponNames[i], weaponAttackPowers[i]));
             }
         }
         public Robot ChooseRobotToFight()

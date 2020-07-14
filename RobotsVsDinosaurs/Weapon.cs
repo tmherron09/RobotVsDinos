@@ -10,18 +10,14 @@ namespace RobotsVsDinosaurs
     {
         public string name;
         public int attackPower;
-        public Random rng;
+        
 
-        public Weapon(string name, Random rng)
+        public Weapon(string name, int attackPower)
         {
             this.name = name;
-            this.rng = rng;
-            InitializeAttackPower(rng);
+            this.attackPower = attackPower;
         }
 
-        public void InitializeAttackPower(Random rng)
-        {
-            attackPower = rng.Next(1, 6) * 10;  // returns 10 - 50 steps of 10
-        }
+        
     }
 }
