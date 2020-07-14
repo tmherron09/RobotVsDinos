@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RobotsVsDinosaurs
 {
@@ -88,7 +85,7 @@ namespace RobotsVsDinosaurs
         private void DisplayWinner()
         {
             string msg = "";
-            if(fleet.robots.Any())
+            if (fleet.robots.Any())
             {
                 Console.WriteLine("Robots Win!");
             }
@@ -225,7 +222,7 @@ namespace RobotsVsDinosaurs
         // Calls methods to run Computer turn. Both Robot/Dinosaur.
         private void ComputerAttackActionCall()
         {
-            
+
             if (isFleetTurn)
             {
                 ComputerRobotAttackAction();
@@ -280,7 +277,6 @@ namespace RobotsVsDinosaurs
             herd.UpdatePowerLevels(currentTurnDinosaur);
         }
         #endregion
-
 
         #region Attack Reports
         // Creates a msg based on Result of Robots turn.

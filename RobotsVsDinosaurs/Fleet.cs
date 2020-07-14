@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RobotsVsDinosaurs
 {
@@ -84,7 +81,7 @@ namespace RobotsVsDinosaurs
                         Console.WriteLine(msg);
                     }
                 }
-                if(!valid)
+                if (!valid)
                 {
                     battlefield.UpdateStatsDisplay();
                 }
@@ -109,7 +106,7 @@ namespace RobotsVsDinosaurs
                     valid = (selection > 0 && selection <= herd.dinosaurs.Count);
                     selection--;
                 }
-                if(!valid)
+                if (!valid)
                 {
                     battlefield.UpdateStatsDisplay();
                 }

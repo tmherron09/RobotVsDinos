@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ExceptionServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RobotsVsDinosaurs
 {
@@ -23,7 +19,7 @@ namespace RobotsVsDinosaurs
             this.health = health;
             this.powerLevel = powerLevel;
             this.maxPowerLevel = maxPowerLevel;
-    }
+        }
 
         #region Weapon Methods
         public void InitializeWeapon(Fleet fleet, Battlefield battlefield)
