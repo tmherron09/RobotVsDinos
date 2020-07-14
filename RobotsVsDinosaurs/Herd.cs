@@ -11,7 +11,6 @@ namespace RobotsVsDinosaurs
         public List<Dinosaur> dinosaurs;
         public List<string> dinosaurTypes;
         public bool isHuman;
-        //List<DinosaurAttack> dinosaurAttacks;
 
         public Herd()
         {
@@ -98,7 +97,6 @@ namespace RobotsVsDinosaurs
                 throw new IndexOutOfRangeException();
             }
         }
-
         public Robot ComputerChooseTargetRobot(Fleet fleet, Random rng)
         {
             int leastHealth = 1000;
