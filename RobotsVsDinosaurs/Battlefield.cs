@@ -77,7 +77,7 @@ namespace RobotsVsDinosaurs
             }
             foreach (Dinosaur dino in herd.dinosaurs)
             {
-                dinoInfo = string.Concat(dinoInfo, $"{dino.typename}\nHealth: {dino.health,3} Power Level: {dino.powerLevel}\n");
+                dinoInfo = string.Concat(dinoInfo, $"{dino.name}\nHealth: {dino.health,3} Power Level: {dino.powerLevel}\n");
             }
             Console.WriteLine(robotInfo + "\n----------\n\n" + dinoInfo);
             Console.SetCursorPosition(0, 0);
@@ -286,17 +286,17 @@ namespace RobotsVsDinosaurs
             bool isDead;
             if (hitAmount > 0)
             {
-                msg = $"{currentTurnRobot.name} hit {targetDinosaur.typename} with {currentTurnRobot.weapon.name} for {hitAmount} damage!";
+                msg = $"{currentTurnRobot.name} hit {targetDinosaur.name} with {currentTurnRobot.weapon.name} for {hitAmount} damage!";
                 isDead = herd.CheckHasDied(targetDinosaur);
                 if (isDead)
                 {
-                    msg = string.Concat(msg + $"\t{targetDinosaur.typename} has been destroyed.");
+                    msg = string.Concat(msg + $"\t{targetDinosaur.name} has been destroyed.");
                     herd.RemoveDinosaur(targetDinosaur);
                 }
             }
             else
             {
-                msg = $"{currentTurnRobot.name} MISSED {targetDinosaur.typename} with {currentTurnRobot.weapon.name}!";
+                msg = $"{currentTurnRobot.name} MISSED {targetDinosaur.name} with {currentTurnRobot.weapon.name}!";
             }
             UpdateStatsDisplay();
             Console.WriteLine("Robots Turn\n");
@@ -310,7 +310,7 @@ namespace RobotsVsDinosaurs
             bool isDead;
             if (hitAmount > 0)
             {
-                msg = $"{currentTurnDinosaur.typename} hit {targetRobot.name} for {hitAmount} damage!";
+                msg = $"{currentTurnDinosaur.name} hit {targetRobot.name} for {hitAmount} damage!";
                 isDead = fleet.CheckHasDied(targetRobot);
                 if (isDead)
                 {
@@ -320,7 +320,7 @@ namespace RobotsVsDinosaurs
             }
             else
             {
-                msg = $"{currentTurnDinosaur.typename} has MISSED {targetRobot.name}!";
+                msg = $"{currentTurnDinosaur.name} has MISSED {targetRobot.name}!";
             }
             UpdateStatsDisplay();
             Console.WriteLine("Dinosaurs Turn\n");
@@ -355,7 +355,7 @@ namespace RobotsVsDinosaurs
                 Console.WriteLine($"Herd count is {herd.dinosaurs.Count}");
                 foreach (Dinosaur dino in herd.dinosaurs)
                 {
-                    Console.WriteLine($"Dino Type: {dino.typename} Dino Health: {dino.health} Dino Power Level: {dino.health} Dino Attack Power: {dino.attackPower}");
+                    Console.WriteLine($"Dino Type: {dino.name} Dino Health: {dino.health} Dino Power Level: {dino.health} Dino Attack Power: {dino.attackPower}");
                 }
             }
             else

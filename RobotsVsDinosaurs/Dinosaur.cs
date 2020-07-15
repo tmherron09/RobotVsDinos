@@ -2,24 +2,20 @@
 
 namespace RobotsVsDinosaurs
 {
-    class Dinosaur
+    class Dinosaur : Warrior
     {
-        public string typename;
-        public int health;
-        public int powerLevel;
-        public int maxPowerLevel;
-        public int attackPower;
+
         public string[] attackTypes;
         public double[] attackTypesModifiers;
         public int[] attackTypeModifierHitChance;
 
-        public Dinosaur(string typeName, int health, int powerLevel, int maxPower, int attackPower)
+        public Dinosaur(string name, int health, int powerLevel, int maxPowerLevel, int attackPower) : base(name, health, powerLevel, maxPowerLevel, attackPower)
         {
-            this.typename = typeName;
-            this.health = health;
-            this.powerLevel = powerLevel; // stamina
-            this.maxPowerLevel = maxPower;
-            this.attackPower = attackPower;
+
+        }
+
+        public void SetAttackTypes()
+        {
             attackTypes = new string[] { "Scratch", "Bite", "Tail Whip" };
             attackTypesModifiers = new double[] { 1.25, 2.00, 1.00 };
             attackTypeModifierHitChance = new int[] { 80, 50, 100 };
@@ -96,12 +92,12 @@ namespace RobotsVsDinosaurs
         }
         #endregion
         // Takes a robot's weapon as input to calculate damage. Returns value back to caller.
-        public int GetHit(Weapon weapon)
-        {
-            int hitAmount = weapon.attackPower;
-            this.health -= hitAmount;
-            return hitAmount;
-        }
+        //public int GetHit(Weapon weapon)
+        //{
+        //    int hitAmount = weapon.attackPower;
+        //    this.health -= hitAmount;
+        //    return hitAmount;
+        //}
 
     }
 }

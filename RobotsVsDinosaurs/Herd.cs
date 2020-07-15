@@ -42,7 +42,7 @@ namespace RobotsVsDinosaurs
                 Console.WriteLine("Choose a dinosaur: ");
                 for (int i = 0; i < dinosaurs.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) {dinosaurs[i].typename} | Power Level: {dinosaurs[i].powerLevel}");
+                    Console.WriteLine($"{i + 1}) {dinosaurs[i].name} | Power Level: {dinosaurs[i].powerLevel}");
                 }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
@@ -53,7 +53,7 @@ namespace RobotsVsDinosaurs
                 if (valid && dinosaurs[selection].powerLevel <= 0)
                 {
                     valid = false;
-                    msg = $"{dinosaurs[selection].typename} has no power to fight.";
+                    msg = $"{dinosaurs[selection].name} has no power to fight.";
                     Console.WriteLine(msg);
                 }
                 if (!valid)

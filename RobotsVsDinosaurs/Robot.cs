@@ -3,22 +3,14 @@ using System.Collections.Generic;
 
 namespace RobotsVsDinosaurs
 {
-    class Robot
+    class Robot : Warrior
     {
-        public string name;
-        public int health;
-        public int powerLevel; //stamina
-        public int maxPowerLevel;
         public Weapon weapon;
         public List<Weapon> weaponList;
 
-        public Robot(string name, List<Weapon> weaponList, int health, int powerLevel, int maxPowerLevel)
+        public Robot(List<Weapon> weaponList, string name, int health, int powerLevel, int maxPower, int attackPower) : base( name,  health,  powerLevel,  maxPower, attackPower)
         {
-            this.name = name;
             this.weaponList = weaponList;
-            this.health = health;
-            this.powerLevel = powerLevel;
-            this.maxPowerLevel = maxPowerLevel;
         }
 
         #region Weapon Methods
@@ -56,6 +48,7 @@ namespace RobotsVsDinosaurs
                 }
             } while (!valid);
             this.weapon = weaponList[weaponChoice];
+            this.attackPower = weapon.attackPower;
             weaponList.Remove(this.weapon);
         }
         public void ComputerChooseWeapon()
@@ -71,23 +64,12 @@ namespace RobotsVsDinosaurs
                 }
             }
             this.weapon = weaponChoice;
+            this.attackPower = weapon.attackPower;
             weaponList.Remove(this.weapon);
         }
         #endregion
 
-        #region Attack/GetHit Methods
-        public int Attack(Dinosaur targetDinosaur)
-        {
-            return targetDinosaur.GetHit(this.weapon);
 
-        }
-        public int GetHit(int attackPower)
-        {
-            int hitAmount = attackPower;
-            health -= hitAmount;
-            return hitAmount;
-        }
-        #endregion
 
     }
 }

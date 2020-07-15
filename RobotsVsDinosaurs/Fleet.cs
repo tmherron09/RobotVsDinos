@@ -33,7 +33,7 @@ namespace RobotsVsDinosaurs
             string[] names = { "FrazelBot", "Storm 9000", "LED-Tron" };
             for (int i = 0; i < 3; i++)
             {
-                robots.Add(new Robot(names[i], availableWeapons, health, powerLevel, maxPowerLevel));
+                robots.Add(new Robot(availableWeapons, names[i], health, powerLevel, maxPowerLevel, 0));
             }
         }
         // Instantiates a WeaponList based on hard coded values.
@@ -98,7 +98,7 @@ namespace RobotsVsDinosaurs
                 Console.WriteLine("Choose a dinosaur to attack: ");
                 for (int i = 0; i < herd.dinosaurs.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) {herd.dinosaurs[i].typename} | Health: {herd.dinosaurs[i].health}");
+                    Console.WriteLine($"{i + 1}) {herd.dinosaurs[i].name} | Health: {herd.dinosaurs[i].health}");
                 }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
