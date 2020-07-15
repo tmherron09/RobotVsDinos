@@ -9,6 +9,10 @@ namespace RobotsVsDinosaurs
         public double[] attackTypesModifiers;
         public int[] attackTypeModifierHitChance;
 
+        public Dinosaur()
+        {
+
+        }
         public Dinosaur(string name, int health, int powerLevel, int maxPowerLevel, int attackPower) : base(name, health, powerLevel, maxPowerLevel, attackPower)
         {
 
@@ -23,7 +27,7 @@ namespace RobotsVsDinosaurs
 
         #region Attack/ Attack Type Methods
         // Human attack consisting of choosing attack type. Calls GetHit method on target robot.
-        public int HumanAttack(Robot targetRobot, Random rng, Battlefield battlefield)
+        public int HumanChooseAttackType(Warrior targetWarrior, Random rng, Battlefield battlefield)
         {
             // Set to 0 in case of miss.
             int hitAmount = 0;
@@ -54,7 +58,7 @@ namespace RobotsVsDinosaurs
                 // Calculate damage based on attack type modifier bonus.
                 hitAmount = (int)(attackPower * attackTypesModifiers[selection]);
             }
-            return targetRobot.GetHit(hitAmount);
+            return targetWarrior.GetHit(hitAmount);
         }
         // Computer log for deciding on attack type to use, then calculate damage.
         public int ComputerChooseAttackType(Robot targetRobot, Herd herd, Random rng)
@@ -91,13 +95,7 @@ namespace RobotsVsDinosaurs
             return targetRobot.GetHit(hitAmount);
         }
         #endregion
-        // Takes a robot's weapon as input to calculate damage. Returns value back to caller.
-        //public int GetHit(Weapon weapon)
-        //{
-        //    int hitAmount = weapon.attackPower;
-        //    this.health -= hitAmount;
-        //    return hitAmount;
-        //}
+        
 
     }
 }

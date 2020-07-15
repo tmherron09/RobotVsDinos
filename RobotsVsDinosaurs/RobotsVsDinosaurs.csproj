@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Army.cs" />
     <Compile Include="Battlefield.cs" />
     <Compile Include="Dinosaur.cs" />
     <Compile Include="Fleet.cs" />

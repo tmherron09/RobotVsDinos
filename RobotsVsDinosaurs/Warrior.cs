@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RobotsVsDinosaurs
 {
-    public class Warrior
+    class Warrior
     {
         public string name;
         public int health;
@@ -14,6 +14,10 @@ namespace RobotsVsDinosaurs
         public int maxPowerLevel;
         public int attackPower;
 
+        public Warrior()
+        {
+            // Create null as reference
+        }
         public Warrior(string name, int health, int powerLevel, int maxPowerLevel, int attackPower)
         {
             this.name = name;
@@ -32,7 +36,10 @@ namespace RobotsVsDinosaurs
             health -= attackPower;
             return attackPower;
         }
-        
 
+        public virtual void InitializeWeapon(Army fleet, Battlefield battlefield)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

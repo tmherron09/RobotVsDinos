@@ -3,17 +3,19 @@ using System.Collections.Generic;
 
 namespace RobotsVsDinosaurs
 {
-    class Fleet
+    class Fleet : Army
     {
-        public List<Robot> robots;
+        public string warriorType;
+        public List<Warrior> robots;
         public List<Weapon> availableWeapons;
         public bool isHuman;
 
 
         public Fleet()
         {
-            robots = new List<Robot>();
+            robots = new List<Warrior>();
             availableWeapons = new List<Weapon>();
+            warriorType = "Robot";
         }
 
         #region Fleet Initialization Methods
@@ -57,7 +59,7 @@ namespace RobotsVsDinosaurs
 
         #region Human Choice Methods
         // Display and read Human Player input of which Robot to use to fight.
-        public Robot HumanChooseRobotToFight(Battlefield battlefield)
+        public Warrior HumanChooseRobotToFight(Battlefield battlefield)
         {
             string msg;
             int selection;
@@ -89,7 +91,7 @@ namespace RobotsVsDinosaurs
             return robots[selection];
         }
         // Display and read Human Player input of which Dinosaur to attack.
-        public Dinosaur HumanChooseTargetDinosaur(Herd herd, Battlefield battlefield)
+        public Warrior HumanChooseTargetDinosaur(Army herd, Battlefield battlefield)
         {
             int selection;
             bool valid = false;
@@ -117,15 +119,15 @@ namespace RobotsVsDinosaurs
 
         #region Computer Choice Methods
         // Logic for Computer to Choose a robot to fight with.
-        public Robot ComputerChooseRobotToFight(Random rng)
+        public Warrior ComputerChooseRobotToFight(Random rng)
         {
             // If only one left skip logic check.
             if (robots.Count == 1)
             {
                 return robots[0];
             }
-            Robot strongest = robots[0];
-            Robot robotWithMostPower = robots[0];
+            Warrior strongest = robots[0];
+            Warrior robotWithMostPower = robots[0];
             int largestAttackPower = 0;
             int largestPowerLevel = 0;
             // Determin robots with most

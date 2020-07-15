@@ -3,17 +3,19 @@ using System.Collections.Generic;
 
 namespace RobotsVsDinosaurs
 {
-    class Herd
+    class Herd : Army
     {
-        public List<Dinosaur> dinosaurs;
+        public string warriorType; 
+        public List<Warrior> dinosaurs;
         public List<string> dinosaurTypes;
         public bool isHuman;
 
         public Herd()
         {
-            dinosaurs = new List<Dinosaur>();
+            dinosaurs = new List<Warrior>();
             dinosaurTypes = new List<string> { "Troodon", "Quaesitosaurus", "T-Rex" };
             isHuman = false;
+            warriorType = "Dinosaur";
         }
 
         #region Initialization Methods

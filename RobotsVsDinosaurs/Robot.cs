@@ -8,22 +8,28 @@ namespace RobotsVsDinosaurs
         public Weapon weapon;
         public List<Weapon> weaponList;
 
+        public Robot()
+        {
+
+        }
         public Robot(List<Weapon> weaponList, string name, int health, int powerLevel, int maxPower, int attackPower) : base( name,  health,  powerLevel,  maxPower, attackPower)
         {
             this.weaponList = weaponList;
         }
 
         #region Weapon Methods
-        public void InitializeWeapon(Fleet fleet, Battlefield battlefield)
+        public override void InitializeWeapon(Army fleet, Battlefield battlefield)
         {
             if (weapon == null && fleet.isHuman)
             {
                 ChooseWeapon(battlefield);
             }
-            else if (weapon == null)
+            else if (weapon == null) // Depreciated Failsafe
             {
-                // Should not be called: Assume if it has no weapon, all have no weapon. Initialize all.
-                fleet.ComputerChooseAllWeapons();
+                foreach (Robot robot in fleet.warriors)
+                {
+                    robot.ComputerChooseWeapon();
+                }
             }
         }
         private void ChooseWeapon(Battlefield battlefield)
