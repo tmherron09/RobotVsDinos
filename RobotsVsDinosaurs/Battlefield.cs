@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace RobotsVsDinosaurs
 {
-    class Battlefield
+    public class Battlefield
     {
         Fleet fleet;
         Herd herd;
@@ -42,7 +42,7 @@ namespace RobotsVsDinosaurs
         // Check if either team List is empty/All units destroyed.
         private bool WinningConditionMet()
         {
-            if (!fleet.robots.Any() || !herd.dinosaurs.Any())
+            if (!fleet.Warriors.Any() || !herd.Warriors.Any())
             {
                 return true;
             }
@@ -71,13 +71,13 @@ namespace RobotsVsDinosaurs
             string dinoInfo = "Dinosaur Stats\n";
             Console.Clear();
             Console.SetCursorPosition(0, 22);
-            foreach (Robot robot in fleet.robots)
+            foreach (Robot robot in fleet.Warriors)
             {
-                robotInfo = string.Concat(robotInfo, $"{robot.name}\nHealth: {robot.health,3} Power Level: {robot.powerLevel}\n");
+                robotInfo = string.Concat(robotInfo, $"{robot.Name}\nHealth: {robot.Health,3} Power Level: {robot.stamina}\n");
             }
-            foreach (Dinosaur dino in herd.dinosaurs)
+            foreach (Dinosaur dino in herd.Warriors)
             {
-                dinoInfo = string.Concat(dinoInfo, $"{dino.name}\nHealth: {dino.health,3} Power Level: {dino.powerLevel}\n");
+                dinoInfo = string.Concat(dinoInfo, $"{dino.Name}\nHealth: {dino.Health,3} Power Level: {dino.stamina}\n");
             }
             Console.WriteLine(robotInfo + "\n----------\n\n" + dinoInfo);
             Console.SetCursorPosition(0, 0);
@@ -85,7 +85,7 @@ namespace RobotsVsDinosaurs
         private void DisplayWinner()
         {
             string msg = "";
-            if (fleet.robots.Any())
+            if (fleet.Warriors.Any())
             {
                 Console.WriteLine("Robots Win!");
             }
@@ -120,12 +120,12 @@ namespace RobotsVsDinosaurs
                 {
                     if (userInput == 1)
                     {
-                        fleet.isHuman = true;
+                        fleet.IsHuman = true;
                         break;
                     }
                     else if (userInput == 2)
                     {
-                        herd.isHuman = true;
+                        herd.IsHuman = true;
                         break;
                     }
                     else
@@ -147,7 +147,7 @@ namespace RobotsVsDinosaurs
         // First part of turn, calls method depending on if Human player or Computer Player
         public void AttackPhase()
         {
-            if (isFleetTurn && fleet.isHuman || !isFleetTurn && herd.isHuman)
+            if (isFleetTurn && fleet.IsHuman || !isFleetTurn && herd.IsHuman)
             {
                 HumanAttackActionCall();
             }
@@ -178,8 +178,6 @@ namespace RobotsVsDinosaurs
             if (isFleetTurn)
             {
                 currentArmy = fleet;
-               
-
             }
             else
             {
@@ -187,7 +185,7 @@ namespace RobotsVsDinosaurs
             }
             if(!currentArmy.CheckIfWarriorsCanFight())
             {
-                Console.WriteLine($"No {currentArmy.warriorType} have enough energy to fight.");
+                Console.WriteLine($"No {currentArmy.WarriorType} have enough energy to fight.");
                 fleet.UpdatePowerLevels();
                 return;
             }
@@ -195,12 +193,12 @@ namespace RobotsVsDinosaurs
             UpdateStatsDisplay();
             if(currentArmy.GetType() == typeof(Fleet))
             {
-                currentTurnWarrior.InitializeWeapon(fleet, this);
+                currentTurnWarrior.InitializeWarriors(fleet, this);
             }
         }
         private void HumanRobotAttackAction()
         {
-            int hitAmount;
+            float hitAmount;
             if (!fleet.CheckIfRobotsCanFight())
             {
                 Console.WriteLine("No Robots have enough energy to fight.");
@@ -213,28 +211,28 @@ namespace RobotsVsDinosaurs
             currentTurnRobot = fleet.HumanChooseRobotToFight(this);
             UpdateStatsDisplay();
             // Player chooses weapon for Robot if not already assigned
-            currentTurnRobot.InitializeWeapon(fleet, this);
+            currentTurnRobot.InitializeWarriors(fleet, this);
             UpdateStatsDisplay();
             // Player ChoosesTargetDinosaur
             targetDinosaur = fleet.HumanChooseTargetDinosaur(herd, this);
             UpdateStatsDisplay();
             // Robot attacks and returns hit amount.
-            hitAmount = currentTurnRobot.Attack(targetDinosaur);
+            hitAmount = currentTurnRobot.Attack((Warrior)targetDinosaur);
             ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
             fleet.UpdatePowerLevels(currentTurnRobot);
         }
         // Human Dinosaur Attack Turn steps
         private void HumanDinosaurAttackAction()
         {
-            int hitAmount;
+            float hitAmount;
             if (!herd.CheckIfDinosaursCanFight())
             {
                 Console.WriteLine("No Dinosaur has enough energy to fight.");
                 herd.UpdatePowerLevels();
                 return;
             }
-            Dinosaur currentTurnDinosaur;
-            Robot targetRobot;
+            Warrior currentTurnDinosaur;
+            Warrior targetRobot;
             // Player chooses dinosaur
             currentTurnDinosaur = herd.HumanChooseDinosaurToFight(this);
             UpdateStatsDisplay();
@@ -248,52 +246,52 @@ namespace RobotsVsDinosaurs
         }
         /* Computer Player Branch */
         // Calls methods to run Computer turn. Both Robot/Dinosaur.
-        //private void ComputerAttackActionCall()
-        //{
+        private void ComputerAttackActionCall()
+        {
 
-        //    if (isFleetTurn)
-        //    {
-        //        ComputerRobotAttackAction();
-        //    }
-        //    else
-        //    {
-        //        ComputerDinosaurAttackAction();
-        //    }
+            if (isFleetTurn)
+            {
+                ComputerRobotAttackAction();
+            }
+            else
+            {
+                ComputerDinosaurAttackAction();
+            }
 
-        //}
+        }
         // Computer Robot Attack Turn Logic
-        //private void ComputerRobotAttackAction()
-        //{
-        //    int hitAmount;
-        //    if (!fleet.CheckIfRobotsCanFight())
-        //    {
-        //        Console.WriteLine("No Robots have enough energy to fight.");
-        //        fleet.UpdatePowerLevels();
-        //        return;
-        //    }
-        //    Warrior currentTurnRobot;
-        //    Warrior targetDinosaur;
-        //    // Computer chooses Robot
-        //    currentTurnRobot = fleet.ComputerChooseRobotToFight(rng);
-        //    // Computer Selects Target
-        //    targetDinosaur = fleet.ComputeChooseTargetDinosaur(herd, rng);
-        //    // Computer attacks and returns hit amount.
-        //    hitAmount = currentTurnRobot.Attack(targetDinosaur);
-        //    ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
-        //    fleet.UpdatePowerLevels(currentTurnRobot);
-        //}
+        private void ComputerRobotAttackAction()
+        {
+            float hitAmount;
+            if (!fleet.CheckIfRobotsCanFight())
+            {
+                Console.WriteLine("No Robots have enough energy to fight.");
+                fleet.UpdatePowerLevels();
+                return;
+            }
+            Warrior currentTurnRobot;
+            Warrior targetDinosaur;
+            // Computer chooses Robot
+            currentTurnRobot = fleet.ComputerChooseRobotToFight(rng);
+            // Computer Selects Target
+            targetDinosaur = fleet.ComputeChooseTargetDinosaur(herd, rng);
+            // Computer attacks and returns hit amount.
+            hitAmount = currentTurnRobot.Attack(targetDinosaur);
+            ReportRobotAttackedDinosaur(currentTurnRobot, targetDinosaur, hitAmount);
+            fleet.UpdatePowerLevels(currentTurnRobot);
+        }
         // Computer Dinosaur Attack Turn Logic
         private void ComputerDinosaurAttackAction()
         {
-            int hitAmount;
+            float hitAmount;
             if (!herd.CheckIfDinosaursCanFight())
             {
                 Console.WriteLine("No Dinosaur has enough energy to fight.");
                 herd.UpdatePowerLevels();
                 return;
             }
-            Dinosaur currentTurnDinosaur;
-            Robot targetRobot;
+            Warrior currentTurnDinosaur;
+            Warrior targetRobot;
             // Computer chooses dinosaur
             currentTurnDinosaur = herd.ComputerChooseDinosaurToFight();
             // Computer chooses target
@@ -308,23 +306,23 @@ namespace RobotsVsDinosaurs
 
         #region Attack Reports
         // Creates a msg based on Result of Robots turn.
-        public void ReportRobotAttackedDinosaur(Robot currentTurnRobot, Dinosaur targetDinosaur, int hitAmount)
+        public void ReportRobotAttackedDinosaur(Warrior currentTurnRobot, Warrior targetDinosaur, float hitAmount)
         {
             string msg;
             bool isDead;
             if (hitAmount > 0)
             {
-                msg = $"{currentTurnRobot.name} hit {targetDinosaur.name} with {currentTurnRobot.weapon.name} for {hitAmount} damage!";
+                msg = $"{currentTurnRobot.Name} hit {targetDinosaur.Name} with {(currentTurnRobot as Robot).weapon.name} for {hitAmount} damage!";
                 isDead = herd.CheckHasDied(targetDinosaur);
                 if (isDead)
                 {
-                    msg = string.Concat(msg + $"\t{targetDinosaur.name} has been destroyed.");
+                    msg = string.Concat(msg + $"\t{targetDinosaur.Name} has been destroyed.");
                     herd.RemoveDinosaur(targetDinosaur);
                 }
             }
             else
             {
-                msg = $"{currentTurnRobot.name} MISSED {targetDinosaur.name} with {currentTurnRobot.weapon.name}!";
+                msg = $"{currentTurnRobot.Name} MISSED {targetDinosaur.Name} with {(currentTurnRobot as Robot).weapon.name}!";
             }
             UpdateStatsDisplay();
             Console.WriteLine("Robots Turn\n");
@@ -332,23 +330,23 @@ namespace RobotsVsDinosaurs
 
         }
         // Creates a msg based on Result of Dinosaurs turn.
-        public void ReportDinosaurAttackedRobot(Dinosaur currentTurnDinosaur, Robot targetRobot, int hitAmount)
+        public void ReportDinosaurAttackedRobot(Warrior currentTurnDinosaur, Warrior targetRobot, float hitAmount)
         {
             string msg;
             bool isDead;
             if (hitAmount > 0)
             {
-                msg = $"{currentTurnDinosaur.name} hit {targetRobot.name} for {hitAmount} damage!";
+                msg = $"{currentTurnDinosaur.Name} hit {targetRobot.Name} for {hitAmount} damage!";
                 isDead = fleet.CheckHasDied(targetRobot);
                 if (isDead)
                 {
-                    msg = string.Concat(msg + $"\t{targetRobot.name} has been destroyed.");
+                    msg = string.Concat(msg + $"\t{targetRobot.Name} has been destroyed.");
                     fleet.RemoveRobot(targetRobot);
                 }
             }
             else
             {
-                msg = $"{currentTurnDinosaur.name} has MISSED {targetRobot.name}!";
+                msg = $"{currentTurnDinosaur.Name} has MISSED {targetRobot.Name}!";
             }
             UpdateStatsDisplay();
             Console.WriteLine("Dinosaurs Turn\n");
@@ -362,12 +360,12 @@ namespace RobotsVsDinosaurs
         public void DebugLogBattleField()
         {
             Console.WriteLine("Testing Fleet initialization.");
-            if (fleet.robots.Count != 0)
+            if (fleet.Warriors.Count != 0)
             {
-                Console.WriteLine($"Fleet count is {fleet.robots.Count}");
-                foreach (Robot robot in fleet.robots)
+                Console.WriteLine($"Fleet count is {fleet.Warriors.Count}");
+                foreach (Robot robot in fleet.Warriors)
                 {
-                    Console.WriteLine($"Robot name: {robot.name} Health: {robot.health} Power Level:{robot.powerLevel}\n Weapon Type: {robot.weapon.name} Weapon Attack Power: {robot.weapon.attackPower}");
+                    Console.WriteLine($"Robot name: {robot.Name} Health: {robot.Health} Power Level:{robot.stamina}\n Weapon Type: {robot.weapon.name} Weapon Attack Power: {robot.weapon.attackPower}");
                 }
                 foreach (Weapon weapon in fleet.availableWeapons)
                 {
@@ -378,12 +376,12 @@ namespace RobotsVsDinosaurs
             {
                 Console.WriteLine("Fleet not initialized");
             }
-            if (herd.dinosaurs.Count != 0)
+            if (herd.Warriors.Count != 0)
             {
-                Console.WriteLine($"Herd count is {herd.dinosaurs.Count}");
-                foreach (Dinosaur dino in herd.dinosaurs)
+                Console.WriteLine($"Herd count is {herd.Warriors.Count}");
+                foreach (Dinosaur dino in herd.Warriors)
                 {
-                    Console.WriteLine($"Dino Type: {dino.name} Dino Health: {dino.health} Dino Power Level: {dino.health} Dino Attack Power: {dino.attackPower}");
+                    Console.WriteLine($"Dino Type: {dino.Name} Dino Health: {dino.Health} Dino Power Level: {dino.Health} Dino Attack Power: {dino.AttackPower}");
                 }
             }
             else

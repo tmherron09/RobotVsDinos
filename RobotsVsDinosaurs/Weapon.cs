@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RobotsVsDinosaurs
 {
-    class Weapon
+    public class Weapon
     {
         public string name;
         public int attackPower;

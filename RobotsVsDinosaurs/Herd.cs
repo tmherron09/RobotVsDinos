@@ -3,19 +3,16 @@ using System.Collections.Generic;
 
 namespace RobotsVsDinosaurs
 {
-    class Herd : Army
+    public class Herd : Army
     {
-        public string warriorType; 
-        public List<Warrior> dinosaurs;
         public List<string> dinosaurTypes;
-        public bool isHuman;
 
         public Herd()
         {
-            dinosaurs = new List<Warrior>();
+            Warriors = new List<Warrior>();
             dinosaurTypes = new List<string> { "Troodon", "Quaesitosaurus", "T-Rex" };
-            isHuman = false;
-            warriorType = "Dinosaur";
+            IsHuman = false;
+            WarriorType = "Dinosaur";
         }
 
         #region Initialization Methods
@@ -27,13 +24,13 @@ namespace RobotsVsDinosaurs
         {
             for (int i = 0; i < 3; i++)
             {
-                dinosaurs.Add(new Dinosaur(dinosaurTypes[i], health, powerLevel, maxPower, attackPower));
+                Warriors.Add(new Dinosaur(dinosaurTypes[i], health, powerLevel, maxPower, attackPower));
             }
         }
         #endregion
 
         #region Human Choice methods
-        public Dinosaur HumanChooseDinosaurToFight(Battlefield battlefield)
+        public Warrior HumanChooseDinosaurToFight(Battlefield battlefield)
         {
             string msg;
 
@@ -42,20 +39,20 @@ namespace RobotsVsDinosaurs
             do
             {
                 Console.WriteLine("Choose a dinosaur: ");
-                for (int i = 0; i < dinosaurs.Count; i++)
+                for (int i = 0; i < Warriors.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) {dinosaurs[i].name} | Power Level: {dinosaurs[i].powerLevel}");
+                    Console.WriteLine($"{i + 1}) {Warriors[i].Name} | Power Level: {Warriors[i].stamina}");
                 }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
                 {
-                    valid = selection > 0 && selection <= dinosaurs.Count;
+                    valid = selection > 0 && selection <= Warriors.Count;
                     selection--;
                 }
-                if (valid && dinosaurs[selection].powerLevel <= 0)
+                if (valid && Warriors[selection].stamina <= 0)
                 {
                     valid = false;
-                    msg = $"{dinosaurs[selection].name} has no power to fight.";
+                    msg = $"{Warriors[selection].Name} has no power to fight.";
                     Console.WriteLine(msg);
                 }
                 if (!valid)
@@ -63,9 +60,9 @@ namespace RobotsVsDinosaurs
                     battlefield.UpdateStatsDisplay();
                 }
             } while (!valid);
-            return dinosaurs[selection];
+            return Warriors[selection];
         }
-        public Robot HumanChooseTargetRobot(Fleet fleet, Battlefield battlefield)
+        public Warrior HumanChooseTargetRobot(Fleet fleet, Battlefield battlefield)
         {
 
             int selection;
@@ -73,14 +70,14 @@ namespace RobotsVsDinosaurs
             do
             {
                 Console.WriteLine("Choose a robot to attack: ");
-                for (int i = 0; i < fleet.robots.Count; i++)
+                for (int i = 0; i < fleet.Warriors.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) {fleet.robots[i].name} | Health: {fleet.robots[i].health}");
+                    Console.WriteLine($"{i + 1}) {fleet.Warriors[i].Name} | Health: {fleet.Warriors[i].Health}");
                 }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
                 {
-                    valid = (selection > 0 && selection <= fleet.robots.Count);
+                    valid = (selection > 0 && selection <= fleet.Warriors.Count);
                     selection--;
                 }
                 if (!valid)
@@ -88,27 +85,27 @@ namespace RobotsVsDinosaurs
                     battlefield.UpdateStatsDisplay();
                 }
             } while (!valid);
-            return fleet.robots[selection];
+            return fleet.Warriors[selection];
         }
         #endregion
 
         #region Computer Choice Methods
-        public Dinosaur ComputerChooseDinosaurToFight()
+        public Warrior ComputerChooseDinosaurToFight()
         {
-            Dinosaur dinoWithMostHealth = dinosaurs[0];
-            Dinosaur dinoWithMostPower = dinosaurs[0];
-            int mostHealth = 0;
+            Warrior dinoWithMostHealth = Warriors[0];
+            Warrior dinoWithMostPower = Warriors[0];
+            float mostHealth = 0;
             int largestPowerLevel = 0;
-            foreach (Dinosaur dino in dinosaurs)
+            foreach (Dinosaur dino in Warriors)
             {
-                if (dino.health >= mostHealth)
+                if (dino.Health >= mostHealth)
                 {
-                    mostHealth = dino.health;
+                    mostHealth = dino.Health;
                     dinoWithMostHealth = dino;
                 }
-                if (dino.powerLevel >= largestPowerLevel)
+                if (dino.stamina >= largestPowerLevel)
                 {
-                    largestPowerLevel = dino.powerLevel;
+                    largestPowerLevel = dino.stamina;
                     dinoWithMostPower = dino;
                 }
             }
@@ -125,20 +122,20 @@ namespace RobotsVsDinosaurs
                 return dinoWithMostPower;
             }
         }
-        public Robot ComputerChooseTargetRobot(Fleet fleet, Random rng)
+        public Warrior ComputerChooseTargetRobot(Fleet fleet, Random rng)
         {
             int leastHealth = 1000;
             int leastPower = 1000;
             // Set default to first in Dinosaur list to prevent uninitialized error
-            Robot targetLeastHealthRobot = fleet.robots[0];
-            Robot targetLeastPowerRobot = fleet.robots[0];
-            foreach (Robot robot in fleet.robots)
+            Warrior targetLeastHealthRobot = fleet.Warriors[0];
+            Warrior targetLeastPowerRobot = fleet.Warriors[0];
+            foreach (Robot robot in fleet.Warriors)
             {
-                if (robot.health < leastHealth)
+                if (robot.Health < leastHealth)
                 {
                     targetLeastHealthRobot = robot;
                 }
-                if (robot.powerLevel < leastPower)
+                if (robot.stamina < leastPower)
                 {
                     targetLeastPowerRobot = robot;
                 }
@@ -160,9 +157,9 @@ namespace RobotsVsDinosaurs
         public bool CheckIfDinosaursCanFight()
         {
             int hasPowerCount = 0;
-            foreach (Dinosaur dino in dinosaurs)
+            foreach (Dinosaur dino in Warriors)
             {
-                if (dino.powerLevel > 0)
+                if (dino.stamina > 0)
                 {
                     hasPowerCount++;
                 }
@@ -170,19 +167,19 @@ namespace RobotsVsDinosaurs
             return hasPowerCount > 0 ? true : false;
         }
         // Updates power levels. Current dino decreases power, resting regain energy up to max
-        public void UpdatePowerLevels(Dinosaur currentTurnDinosaur)
+        public void UpdatePowerLevels(Warrior currentTurnDinosaur)
         {
-            foreach (Dinosaur dino in dinosaurs)
+            foreach (Dinosaur dino in Warriors)
             {
                 if (currentTurnDinosaur == dino)
                 {
-                    currentTurnDinosaur.powerLevel -= 10;
+                    currentTurnDinosaur.stamina -= 10;
                 }
                 else
                 {
-                    if (dino.powerLevel < dino.maxPowerLevel)
+                    if (dino.stamina < dino.maxPowerLevel)
                     {
-                        dino.powerLevel += 10;
+                        dino.stamina += 10;
                     }
                 }
             }
@@ -190,23 +187,23 @@ namespace RobotsVsDinosaurs
         // Updates power levels if all units are at 0 power. Add 10 power.
         public void UpdatePowerLevels()
         {
-            foreach (Dinosaur dino in dinosaurs)
+            foreach (Dinosaur dino in Warriors)
             {
-                dino.powerLevel += 10;
+                dino.stamina += 10;
             }
         }
         #endregion
 
         #region Uncategorized
-        public bool CheckHasDied(Dinosaur dinosaur)
+        public bool CheckHasDied(Warrior dinosaur)
         {
-            return dinosaur.health <= 0;
+            return dinosaur.Health <= 0;
         }
-        public void RemoveDinosaur(Dinosaur dinosaur)
+        public void RemoveDinosaur(Warrior dinosaur)
         {
-            if (dinosaurs.Contains(dinosaur))
+            if (Warriors.Contains(dinosaur))
             {
-                dinosaurs.Remove(dinosaur);
+                Warriors.Remove(dinosaur);
             }
             else
             {

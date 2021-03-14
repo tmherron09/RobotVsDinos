@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RobotsVsDinosaurs
 {
-    class Robot : Warrior
+    public class Robot : Warrior
     {
         public Weapon weapon;
         public List<Weapon> weaponList;
@@ -17,16 +17,21 @@ namespace RobotsVsDinosaurs
             this.weaponList = weaponList;
         }
 
-        #region Weapon Methods
-        public override void InitializeWeapon(Army fleet, Battlefield battlefield)
+        public override int WarriorAttack(Warrior targetWarrior)
         {
-            if (weapon == null && fleet.isHuman)
+            throw new NotImplementedException();
+        }
+
+        #region Weapon Methods
+        public override void InitializeWarriors(Army fleet, Battlefield battlefield)
+        {
+            if (weapon == null && fleet.IsHuman)
             {
                 ChooseWeapon(battlefield);
             }
             else if (weapon == null) // Depreciated Failsafe
             {
-                foreach (Robot robot in fleet.warriors)
+                foreach (Robot robot in fleet.Warriors)
                 {
                     robot.ComputerChooseWeapon();
                 }
@@ -54,7 +59,7 @@ namespace RobotsVsDinosaurs
                 }
             } while (!valid);
             this.weapon = weaponList[weaponChoice];
-            this.attackPower = weapon.attackPower;
+            this.AttackPower = weapon.attackPower;
             weaponList.Remove(this.weapon);
         }
         public void ComputerChooseWeapon()
@@ -70,10 +75,23 @@ namespace RobotsVsDinosaurs
                 }
             }
             this.weapon = weaponChoice;
-            this.attackPower = weapon.attackPower;
+            this.AttackPower = weapon.attackPower;
             weaponList.Remove(this.weapon);
         }
+
         #endregion
+
+
+
+        public override float HumanChooseAttackType(Warrior warrior, Random rng, Battlefield currentBattlefield)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override float ComputerChooseAttackType(Warrior warrior, Herd herd, Random rng)
+        {
+            throw new NotImplementedException();
+        }
 
 
 

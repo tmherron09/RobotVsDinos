@@ -6,40 +6,63 @@ using System.Threading.Tasks;
 
 namespace RobotsVsDinosaurs
 {
-    class Warrior
+    public abstract class Warrior
     {
-        public string name;
-        public int health;
-        public int powerLevel;
+        private float _health;
+        private float _powerLevel;
+        private float _attackPower;
+
+        public string Name { get; set; }
+        public float Health
+        {
+            get
+            {
+
+
+                return _health > 0 ? _health : 0f;
+            }
+            private set
+            {
+                _health = value;
+            }
+
+        }
+
+        public int stamina;
         public int maxPowerLevel;
-        public int attackPower;
+
+        public float AttackPower { get; set; }
+
 
         public Warrior()
         {
             // Create null as reference
         }
-        public Warrior(string name, int health, int powerLevel, int maxPowerLevel, int attackPower)
+        public Warrior(string name, int health, int powerLevel, int maxPowerLevel, float attackPower)
         {
-            this.name = name;
-            this.health = health;
-            this.powerLevel = powerLevel; // stamina
+            this.Name = name;
+            this.Health = health;
+            this.stamina = powerLevel; // stamina
             this.maxPowerLevel = maxPowerLevel;
-            this.attackPower = attackPower;
+            this.AttackPower = attackPower;
         }
 
-        public int Attack(Warrior targetWarrior)
+        public abstract float HumanChooseAttackType(Warrior warrior, Random rng, Battlefield currentBattlefield);
+        public abstract float ComputerChooseAttackType(Warrior warrior, Herd herd, Random rng);
+        public abstract int WarriorAttack(Warrior targetWarrior);
+
+
+        public float Attack(Warrior targetWarrior)
         {
-            return targetWarrior.GetHit(attackPower);
+            return targetWarrior.GetHit(this, AttackPower);
         }
-        public int GetHit(int attackPower)
+        public float GetHit(Warrior attackingWarrior, float attackHitAmount)
         {
-            health -= attackPower;
-            return attackPower;
+            Health -= attackHitAmount;
+            return attackHitAmount;
         }
 
-        public virtual void InitializeWeapon(Army fleet, Battlefield battlefield)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void InitializeWarriors(Army fleet, Battlefield battlefield);
+
     }
 }

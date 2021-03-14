@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace RobotsVsDinosaurs
 {
-    class Army
+    public abstract class Army
     {
-        public string warriorType { get; set; }
-        public List<Warrior> warriors;
-        public bool isHuman;
+        public string WarriorType { get; set; }
+        public List<Warrior> Warriors { get; set; }
+        public bool IsHuman { get; set; }
+
+
         public bool CheckIfWarriorsCanFight()
         {
             int hasPowerCount = 0;
-            foreach (Warrior warrior in warriors)
+            foreach (Warrior warrior in Warriors)
             {
-                if (warrior.powerLevel > 0)
+                if (warrior.stamina > 0)
                 {
                     hasPowerCount++;
                 }
