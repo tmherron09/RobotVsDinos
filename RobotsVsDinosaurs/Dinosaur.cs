@@ -9,11 +9,20 @@ namespace RobotsVsDinosaurs
         public float[] attackTypesModifiers;
         public float[] attackTypeModifierHitChance;
 
+        public override bool IsInitialized
+        {
+            get
+            {
+                // To be over written if Dino Type Choice Added.
+                return true;
+            }
+        }
+
         public Dinosaur()
         {
             SetAttackTypes();
         }
-        public Dinosaur(string name, int health, int powerLevel, int maxPowerLevel, int attackPower) : base(name, health, powerLevel, maxPowerLevel, attackPower)
+        public Dinosaur(Army army, string name, float health, float powerLevel, float maxPowerLevel, float attackPower) : base(army, name, health, powerLevel, maxPowerLevel, attackPower)
         {
             SetAttackTypes();
         }
@@ -80,7 +89,7 @@ namespace RobotsVsDinosaurs
                     attackChoice = 1;
                 }
             }
-            else if (targetRobot.stamina == 0) // Tail Whip 100 hit rate
+            else if (targetRobot.Stamina == 0) // Tail Whip 100 hit rate
             {
                 attackChoice = 2;
             }
@@ -105,9 +114,15 @@ namespace RobotsVsDinosaurs
         #endregion
 
 
-        public override void InitializeWarriors(Army fleet, Battlefield battlefield)
+        public override void InitializeWarriors()
         {
             // TODO: Add Logic to choose Dinosaurs.
+        }
+
+        public override string ChoiceDisplayMessage(int? indexOf = null)
+        {
+            string SelectionNumber = indexOf != null ? $"{indexOf + 1}) " : "";
+            return $"{SelectionNumber}Name: {Name} | Power Level (Stamina): {Stamina}";
         }
 
     }

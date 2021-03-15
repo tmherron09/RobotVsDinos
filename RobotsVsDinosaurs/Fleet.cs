@@ -6,7 +6,6 @@ namespace RobotsVsDinosaurs
     public class Fleet : Army
     {
 
-
         public List<Weapon> availableWeapons;
 
 
@@ -14,12 +13,13 @@ namespace RobotsVsDinosaurs
         {
             Warriors = new List<Warrior>();
             availableWeapons = new List<Weapon>();
-            WarriorType = "Robot";
+            //WarriorType = "Robot";
         }
 
         #region Fleet Initialization Methods
         // Calls the instantiation of a Weapon list and List of 3 new Robots.
-        public void InitializeFleet(int health, int powerLevel, int maxPowerLevel)
+        // TODO: Call Base Attack Power Somwhere
+        public override void InitializeArmy(float health, float powerLevel, float maxPowerLevel, float baseAttackPower)
         {
             InitializeWeaponList();
             InitializeNewRobotList(health, powerLevel, maxPowerLevel);
@@ -29,12 +29,12 @@ namespace RobotsVsDinosaurs
             }
         }
         // Instantiates three new Robots based on hard coded names into the Robot List.
-        private void InitializeNewRobotList(int health, int powerLevel, int maxPowerLevel)
+        private void InitializeNewRobotList(float health, float powerLevel, float maxPowerLevel)
         {
             string[] names = { "FrazelBot", "Storm 9000", "LED-Tron" };
             for (int i = 0; i < 3; i++)
             {
-                Warriors.Add(new Robot(availableWeapons, names[i], health, powerLevel, maxPowerLevel, 0));
+                Warriors.Add(new Robot(this, ref availableWeapons, names[i], health, powerLevel, maxPowerLevel, 0));
             }
         }
         // Instantiates a WeaponList based on hard coded values.
@@ -57,63 +57,8 @@ namespace RobotsVsDinosaurs
         #endregion
 
         #region Human Choice Methods
-        // Display and read Human Player input of which Robot to use to fight.
-        public Warrior HumanChooseRobotToFight(Battlefield battlefield)
-        {
-            string msg;
-            int selection;
-            bool valid = false;
-            do
-            {
-                Console.WriteLine("Please select which robot to use: ");
-                for (int i = 0; i < Warriors.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}) Name: {Warriors[i].Name} | Power Level: {Warriors[i].stamina}");
-                }
-                valid = Int32.TryParse(Console.ReadLine(), out selection);
-                if (valid)
-                {
-                    valid = (selection > 0 && selection <= Warriors.Count);
-                    selection--;
-                    if (valid && Warriors[selection].stamina <= 0)
-                    {
-                        valid = false;
-                        msg = $"{Warriors[selection].Name} has no power to fight.";
-                        Console.WriteLine(msg);
-                    }
-                }
-                if (!valid)
-                {
-                    battlefield.UpdateStatsDisplay();
-                }
-            } while (!valid);
-            return Warriors[selection];
-        }
-        // Display and read Human Player input of which Dinosaur to attack.
-        public Warrior HumanChooseTargetDinosaur(Army herd, Battlefield battlefield)
-        {
-            int selection;
-            bool valid = false;
-            do
-            {
-                Console.WriteLine("Choose a dinosaur to attack: ");
-                for (int i = 0; i < herd.Warriors.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}) {herd.Warriors[i].Name} | Health: {herd.Warriors[i].Health}");
-                }
-                valid = Int32.TryParse(Console.ReadLine(), out selection);
-                if (valid)
-                {
-                    valid = (selection > 0 && selection <= herd.Warriors.Count);
-                    selection--;
-                }
-                if (!valid)
-                {
-                    battlefield.UpdateStatsDisplay();
-                }
-            } while (!valid);
-            return herd.Warriors[selection];
-        }
+        
+        
         #endregion
 
         #region Computer Choice Methods
@@ -127,8 +72,8 @@ namespace RobotsVsDinosaurs
             }
             Warrior strongest = Warriors[0];
             Warrior robotWithMostPower = Warriors[0];
-            int largestAttackPower = 0;
-            int largestPowerLevel = 0;
+            float largestAttackPower = 0;
+            float largestPowerLevel = 0;
             // Determin robots with most
             foreach (Robot robot in Warriors)
             {
@@ -140,9 +85,9 @@ namespace RobotsVsDinosaurs
                         strongest = robot;
                     }
                 }
-                if (robot.stamina >= largestPowerLevel)
+                if (robot.Stamina >= largestPowerLevel)
                 {
-                    largestPowerLevel = robot.stamina;
+                    largestPowerLevel = robot.Stamina;
                     robotWithMostPower = robot;
                 }
             }
@@ -178,7 +123,7 @@ namespace RobotsVsDinosaurs
                 {
                     targetLeastHealthDinosaur = dino;
                 }
-                if (dino.stamina < leastPower)
+                if (dino.Stamina < leastPower)
                 {
                     targetLeastPowerDiinosaur = dino;
                 }
@@ -202,7 +147,7 @@ namespace RobotsVsDinosaurs
             int hasPowerCount = 0;
             foreach (Robot robot in Warriors)
             {
-                if (robot.stamina > 0)
+                if (robot.Stamina > 0)
                 {
                     hasPowerCount++;
                 }
@@ -216,13 +161,13 @@ namespace RobotsVsDinosaurs
             {
                 if (currentTurnRobot == robot)
                 {
-                    currentTurnRobot.stamina -= 10;
+                    currentTurnRobot.Stamina -= 10;
                 }
                 else
                 {
-                    if (robot.stamina < robot.maxPowerLevel)
+                    if (robot.Stamina < robot.maxPowerLevel)
                     {
-                        robot.stamina += 10;
+                        robot.Stamina += 10;
                     }
                 }
             }
@@ -233,7 +178,7 @@ namespace RobotsVsDinosaurs
             // Called if no units have energy.
             foreach (Robot robot in Warriors)
             {
-                robot.stamina += 10;
+                robot.Stamina += 10;
             }
         }
         #endregion

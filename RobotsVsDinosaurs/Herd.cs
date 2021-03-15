@@ -12,19 +12,19 @@ namespace RobotsVsDinosaurs
             Warriors = new List<Warrior>();
             dinosaurTypes = new List<string> { "Troodon", "Quaesitosaurus", "T-Rex" };
             IsHuman = false;
-            WarriorType = "Dinosaur";
+            //WarriorType = "Dinosaur";
         }
 
         #region Initialization Methods
-        public void InitializeHerd(int health, int powerLevel, int maxPower, int attackPower)
+        public override void InitializeArmy(float health, float powerLevel, float maxPower, float baseAttackPower)
         {
-            InitializeNewDinosaurList(health, powerLevel, maxPower, attackPower);
+            InitializeNewDinosaurList(health, powerLevel, maxPower, baseAttackPower);
         }
-        private void InitializeNewDinosaurList(int health, int powerLevel, int maxPower, int attackPower)
+        private void InitializeNewDinosaurList(float health, float powerLevel, float maxPower, float attackPower)
         {
             for (int i = 0; i < 3; i++)
             {
-                Warriors.Add(new Dinosaur(dinosaurTypes[i], health, powerLevel, maxPower, attackPower));
+                Warriors.Add(new Dinosaur(this, dinosaurTypes[i], health, powerLevel, maxPower, attackPower));
             }
         }
         #endregion
@@ -41,7 +41,7 @@ namespace RobotsVsDinosaurs
                 Console.WriteLine("Choose a dinosaur: ");
                 for (int i = 0; i < Warriors.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}) {Warriors[i].Name} | Power Level: {Warriors[i].stamina}");
+                    Console.WriteLine($"{i + 1}) {Warriors[i].Name} | Power Level: {Warriors[i].Stamina}");
                 }
                 valid = Int32.TryParse(Console.ReadLine(), out selection);
                 if (valid)
@@ -49,7 +49,7 @@ namespace RobotsVsDinosaurs
                     valid = selection > 0 && selection <= Warriors.Count;
                     selection--;
                 }
-                if (valid && Warriors[selection].stamina <= 0)
+                if (valid && Warriors[selection].Stamina <= 0)
                 {
                     valid = false;
                     msg = $"{Warriors[selection].Name} has no power to fight.";
@@ -95,7 +95,7 @@ namespace RobotsVsDinosaurs
             Warrior dinoWithMostHealth = Warriors[0];
             Warrior dinoWithMostPower = Warriors[0];
             float mostHealth = 0;
-            int largestPowerLevel = 0;
+            float largestPowerLevel = 0;
             foreach (Dinosaur dino in Warriors)
             {
                 if (dino.Health >= mostHealth)
@@ -103,9 +103,9 @@ namespace RobotsVsDinosaurs
                     mostHealth = dino.Health;
                     dinoWithMostHealth = dino;
                 }
-                if (dino.stamina >= largestPowerLevel)
+                if (dino.Stamina >= largestPowerLevel)
                 {
-                    largestPowerLevel = dino.stamina;
+                    largestPowerLevel = dino.Stamina;
                     dinoWithMostPower = dino;
                 }
             }
@@ -135,7 +135,7 @@ namespace RobotsVsDinosaurs
                 {
                     targetLeastHealthRobot = robot;
                 }
-                if (robot.stamina < leastPower)
+                if (robot.Stamina < leastPower)
                 {
                     targetLeastPowerRobot = robot;
                 }
@@ -159,7 +159,7 @@ namespace RobotsVsDinosaurs
             int hasPowerCount = 0;
             foreach (Dinosaur dino in Warriors)
             {
-                if (dino.stamina > 0)
+                if (dino.Stamina > 0)
                 {
                     hasPowerCount++;
                 }
@@ -173,13 +173,13 @@ namespace RobotsVsDinosaurs
             {
                 if (currentTurnDinosaur == dino)
                 {
-                    currentTurnDinosaur.stamina -= 10;
+                    currentTurnDinosaur.Stamina -= 10;
                 }
                 else
                 {
-                    if (dino.stamina < dino.maxPowerLevel)
+                    if (dino.Stamina < dino.maxPowerLevel)
                     {
-                        dino.stamina += 10;
+                        dino.Stamina += 10;
                     }
                 }
             }
@@ -189,7 +189,7 @@ namespace RobotsVsDinosaurs
         {
             foreach (Dinosaur dino in Warriors)
             {
-                dino.stamina += 10;
+                dino.Stamina += 10;
             }
         }
         #endregion

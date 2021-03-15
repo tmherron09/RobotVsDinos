@@ -8,11 +8,18 @@ namespace RobotsVsDinosaurs
         public Weapon weapon;
         public List<Weapon> weaponList;
 
+        public override bool IsInitialized { get
+            {
+                return weapon != null;
+            } 
+        }
+
+
         public Robot()
         {
 
         }
-        public Robot(List<Weapon> weaponList, string name, int health, int powerLevel, int maxPower, int attackPower) : base( name,  health,  powerLevel,  maxPower, attackPower)
+        public Robot(Army army, ref List<Weapon> weaponList, string name, float health, float powerLevel, float maxPower, float baseAttackPower) : base(army,  name,  health,  powerLevel,  maxPower, baseAttackPower)
         {
             this.weaponList = weaponList;
         }
@@ -23,21 +30,18 @@ namespace RobotsVsDinosaurs
         }
 
         #region Weapon Methods
-        public override void InitializeWarriors(Army fleet, Battlefield battlefield)
+
+        // TODO: Move Weapon Initialization to First Stage of Robot Attack.
+        public override void InitializeWarriors()
         {
-            if (weapon == null && fleet.IsHuman)
+            if (weapon == null)
             {
-                ChooseWeapon(battlefield);
-            }
-            else if (weapon == null) // Depreciated Failsafe
-            {
-                foreach (Robot robot in fleet.Warriors)
-                {
-                    robot.ComputerChooseWeapon();
-                }
+                ChooseWeapon();
             }
         }
-        private void ChooseWeapon(Battlefield battlefield)
+
+
+        private void ChooseWeapon()
         {
             int weaponChoice;
             bool valid = false;
@@ -55,7 +59,8 @@ namespace RobotsVsDinosaurs
                 }
                 if (!valid)
                 {
-                    battlefield.UpdateStatsDisplay();
+                    // TODO: Replace with small line clear method.
+                    //UpdateStatsDisplay();
                 }
             } while (!valid);
             this.weapon = weaponList[weaponChoice];
@@ -94,6 +99,11 @@ namespace RobotsVsDinosaurs
         }
 
 
+        public override string ChoiceDisplayMessage(int? indexOf = null)
+        {
+            string SelectionNumber = indexOf != null ? $"{indexOf + 1}) " : "";
+            return $"{SelectionNumber}Name: {Name} | Weapon: {(weapon != null ? weapon.name : "No Weapon Selected.")}";
+        }
 
     }
 }

@@ -8,9 +8,12 @@ namespace RobotsVsDinosaurs
 {
     public abstract class Warrior
     {
+        private Army WarriorArmy;
+
         private float _health;
         private float _powerLevel;
         private float _attackPower;
+        private float _stamina;
 
         public string Name { get; set; }
         public float Health
@@ -28,23 +31,34 @@ namespace RobotsVsDinosaurs
 
         }
 
-        public int stamina;
-        public int maxPowerLevel;
+        public float Stamina { get
+            {
+                return _stamina;
+            }
+            set
+            {
+                // TODO: refact to private call.
+                _stamina = value;
+            }
+        }
+        public float maxPowerLevel;
 
         public float AttackPower { get; set; }
+        public abstract bool IsInitialized { get; }
 
 
         public Warrior()
         {
             // Create null as reference
         }
-        public Warrior(string name, int health, int powerLevel, int maxPowerLevel, float attackPower)
+        public Warrior(Army army, string name, float health, float powerLevel, float maxPowerLevel, float baseAttackPower)
         {
+            WarriorArmy = army;
             this.Name = name;
             this.Health = health;
-            this.stamina = powerLevel; // stamina
+            this.Stamina = powerLevel; // stamina
             this.maxPowerLevel = maxPowerLevel;
-            this.AttackPower = attackPower;
+            this.AttackPower = baseAttackPower;
         }
 
         public abstract float HumanChooseAttackType(Warrior warrior, Random rng, Battlefield currentBattlefield);
@@ -62,7 +76,8 @@ namespace RobotsVsDinosaurs
             return attackHitAmount;
         }
 
-        public abstract void InitializeWarriors(Army fleet, Battlefield battlefield);
+        public abstract void InitializeWarriors();
 
+        public abstract string ChoiceDisplayMessage(int? indexOf = null);
     }
 }
